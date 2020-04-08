@@ -218,10 +218,13 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     shellany (0.0.1)
+    shoulda-matchers (4.3.0)
+      activesupport (>= 4.2.0)
     simplecov (0.18.5)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
     simplecov-html (0.12.2)
+    slack-notifier (2.3.2)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -275,7 +278,9 @@ DEPENDENCIES
   rails (~> 6.0.2, >= 6.0.2.2)
   rspec-rails (~> 4.0.0)
   selenium-webdriver
+  shoulda-matchers
   simplecov
+  slack-notifier
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
