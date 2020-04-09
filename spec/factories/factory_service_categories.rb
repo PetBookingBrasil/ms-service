@@ -10,9 +10,6 @@ FactoryBot.define do
 
     trait :with_ancestry do
       association :ancestry, factory: :service_category
-      after(:build) do |service|
-        service.ancestry ||= create(:service_category)
-      end
     end
     
   end
