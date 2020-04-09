@@ -17,7 +17,7 @@ RSpec.describe ServiceCategory, type: :model do
 
     context "error with ancestry" do
       let(:service_category_invalid){build(:service_category_invalid)}
-      let(:service_category_with_ancestry){create(:service_category_with_ancestry)}
+      let(:service_category_with_ancestry){create(:service_category, :with_ancestry)}
       it "should have errors" do
         expect(service_category_invalid).to be_invalid
         expect(service_category_invalid.errors.count).to eql(4)
