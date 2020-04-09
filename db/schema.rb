@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2020_04_08_213620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "service_categories", force: :cascade do |t|
+    t.string "uuid"
+    t.string "name"
+    t.string "slug"
+    t.string "system_code"
+    t.integer "business_id"
+    t.integer "ancestry_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "service_categories", "service_categories", column: "ancestry_id"
 end
