@@ -68,3 +68,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'faker'
 gem 'whenever', require: false
 gem 'grape'
+gem 'grape_on_rails_routes'
