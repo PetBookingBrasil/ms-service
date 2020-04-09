@@ -6,7 +6,7 @@ FactoryBot.define do
     uuid { Faker::Internet.uuid }
     name  { "Example of Service" }
     slug { Faker::Internet.slug }
-    system_code { Faker::IDNumber.valid }
+    system_code { Faker::Internet.slug }
 
     trait :with_ancestry do
       association :ancestry, factory: :service_category

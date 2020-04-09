@@ -7,6 +7,8 @@ FactoryBot.define do
     name  { Faker::Name.name }
     slug { Faker::Internet.slug }
     system_code { Faker::IDNumber.valid }
-    association :service_category, factory: :service_category
+    trait :with_anncestry do
+      association :service_category, factory: :service_category
+    end
   end
 end
