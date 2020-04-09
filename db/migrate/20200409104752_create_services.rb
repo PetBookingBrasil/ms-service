@@ -18,6 +18,5 @@ class CreateServices < ActiveRecord::Migration[6.0]
   def down 
     drop_table :services
     execute("drop type valid_applications")
-    
   end
 end
