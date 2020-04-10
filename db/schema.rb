@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_09_104752) do
+ActiveRecord::Schema.define(version: 2020_04_10_231758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,13 +21,20 @@ ActiveRecord::Schema.define(version: 2020_04_09_104752) do
     t.string "slug"
     t.string "system_code"
     t.integer "business_id"
-    t.integer "ancestry_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "parent_id"
+  end
+
+  create_table "service_category_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "service_category_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "service_category_desc_idx"
   end
 
 # Could not dump table "services" because of following StandardError
 #   Unknown type 'valid_applications' for column 'validations'
 
-  add_foreign_key "service_categories", "service_categories", column: "ancestry_id"
 end

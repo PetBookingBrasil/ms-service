@@ -8,9 +8,9 @@ FactoryBot.define do
     slug { Faker::Internet.slug }
     system_code { Faker::Internet.slug }
 
-    trait :with_ancestry do
-      association :ancestry, factory: :service_category
-    end
+    # trait :with_parent do
+    #   parent { factory :service_category }
+    # end
     
   end
 end

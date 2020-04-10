@@ -11,7 +11,7 @@
       name: Faker::Name.name,
       slug: Faker::Internet.slug,
       system_code: Faker::Internet.slug,
-      ancestry: service_category
+      parent: service_category
     )
   end
 end

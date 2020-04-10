@@ -5,7 +5,7 @@ RSpec.describe ServiceCategory, type: :model do
   describe "Validations of Service Category" do
     let!(:service_category_invalid){ build(:service_category_invalid) }
     let!(:service_category){ create(:service_category) }
-    let!(:service_category_with_ancestry){ create(:service_category, :with_ancestry) }
+    # let!(:service_category_with_parent){ create(:service_category, :with_parent) }
     
     describe "validations" do
       subject { service_category_invalid } 
@@ -24,35 +24,38 @@ RSpec.describe ServiceCategory, type: :model do
       end
     end
 
-    describe "error with ancestry" do
-      subject { service_category_with_ancestry }
+    describe "error with parent" do
+      subject do
+        service_category = create(:service_category)
+        with_parent = ServiceCategory.create(attributes_for(:service_category, parent: service_category))
+        with_parent
+      end
       
-      it "should have ancestry error" do
+      it "should have parent error" do
         subject.attributes = service_category_invalid.attributes
-        subject.ancestry_id = 999
-        expect(subject.ancestry).to be_nil
+        subject.parent_id = 999
+        expect(subject.parent).to be_nil
       end
     end
   end
 
-  describe "Service categories with Three" do
-    before do
-      create_list(:service_category, 10)
-      ServiceCategory.without_ancestry.each do |service_category_root|
-        10.times.each do |t|
-          service_category_root.service_categories.build(attributes_for(:service_category))
-        end
-        service_category_root.save
-      end
-    end
+  # describe "Service categories with Three" do
+  #   before do
+  #     create_list(:service_category, 10)
+  #     ServiceCategory.roots.each do |service_category_root|
+  #       10.times.each do |t|
+  #         create(:service_category, parent: service_category_root)
+  #       end
+  #     end
+  #   end
 
-    context "only one level with childrens" do
-      subject { ServiceCategory.without_ancestry.first }
-      it "behaves like" do
-        expect(subject.three.count).to eql(10)
-      end
-    end
-  end
+  #   context "only one level with childrens" do
+  #     subject { ServiceCategory.root }
+  #     it "behaves like" do
+  #       expect(subject.hash_tree.count).to eql(10)
+  #     end
+  #   end
+  # end
   
   
 end

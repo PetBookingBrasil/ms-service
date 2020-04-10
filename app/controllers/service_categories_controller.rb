@@ -1,7 +1,6 @@
 class ServiceCategoriesController < ApplicationController
   def index
-    @service_categories = ServiceCategory.without_ancestry
-    render json: @service_categories
+    render json: ServiceCategory.hash_tree
   end
 
   def create
