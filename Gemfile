@@ -31,6 +31,7 @@ group :development, :test do
 
   #customo gems
   gem 'rspec-rails', '~> 4.0.0'
+  gem 'faker'
 end
 
 group :development do
@@ -60,7 +61,6 @@ group :test do
   gem 'shoulda-matchers'
   gem 'rspec-collection_matchers'
   gem 'database_cleaner'
-  gem 'faker'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
