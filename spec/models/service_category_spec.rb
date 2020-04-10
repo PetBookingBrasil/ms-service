@@ -34,5 +34,25 @@ RSpec.describe ServiceCategory, type: :model do
       end
     end
   end
+
+  describe "Service categories with Three" do
+    before do
+      create_list(:service_category, 10)
+      ServiceCategory.without_ancestry.each do |service_category_root|
+        10.times.each do |t|
+          service_category_root.service_categories.build(attributes_for(:service_category))
+        end
+        service_category_root.save
+      end
+    end
+
+    context "only one level with childrens" do
+      subject { ServiceCategory.without_ancestry.first }
+      it "behaves like" do
+        expect(subject.three.count).to eql(10)
+      end
+    end
+  end
+  
   
 end

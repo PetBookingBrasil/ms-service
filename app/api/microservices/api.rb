@@ -16,7 +16,7 @@ module Microservices
 
     resource :service_categories do
       desc "Return all service categories"
-      get :index do
+      get '/' do
         ServiceCategory.all
       end
     end

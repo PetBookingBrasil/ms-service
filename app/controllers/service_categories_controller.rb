@@ -1,7 +1,7 @@
 class ServiceCategoriesController < ApplicationController
   def index
-    @service_types = ServiceCategory.without_ancestry
-    render json(@service_types)
+    @service_categories = ServiceCategory.without_ancestry
+    render json: @service_categories
   end
 
   def create

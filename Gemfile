@@ -59,13 +59,14 @@ group :test do
   gem "slack-notifier"
   gem 'shoulda-matchers'
   gem 'rspec-collection_matchers'
+  gem 'database_cleaner'
+  gem 'faker'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 #custom gems
-gem 'faker'
 gem 'whenever', require: false
 gem 'grape'
 gem 'grape_on_rails_routes'
