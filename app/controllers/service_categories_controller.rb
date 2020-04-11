@@ -1,5 +1,6 @@
 class ServiceCategoriesController < ApplicationController
   def index
+    
     render json: ServiceCategory.hash_tree
   end
 
