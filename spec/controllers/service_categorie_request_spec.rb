@@ -4,19 +4,26 @@ RSpec.describe ServiceCategoriesController do
 
   let!(:header_signature){ Faker::Internet.uuid }
   
-  before(:each) do
+  before do
     @request.env['X-Signature'] = header_signature
   end
 
   describe "GET /index" do
+    let(:body) { JSON.parse(response.body) }
     before do
-      create_list(:service_category, 10)
-    end
-    it "returns http success" do
+      10.times do
+        create_list(:service_category, 10, parent: create(:service_category))
+      end
       get :index
+    end
+    
+    it "returns http success" do
       expect(response).to have_http_status(:success)
-      body = JSON.parse(response.body)
+    end
+
+    it "returns service categories with childrens" do
       expect(body).to have(10).items
     end
+    
   end
 end
