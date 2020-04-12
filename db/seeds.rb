@@ -5,21 +5,21 @@ rand(10).times do
     slug: Faker::Internet.slug,
     system_code: Faker::Internet.slug,
   )
-  rand(10).times do
-    children = ServiceCategory.create(
+  rand(10).times do 
+    sub_service_category = ServiceCategory.create(
       uuid: Faker::Internet.uuid,
       name: Faker::Name.name,
       slug: Faker::Internet.slug,
       system_code: Faker::Internet.slug,
       parent: service_category
     )
-    rand(10).times do
+    rand(20).times do
       ServiceCategory.create(
         uuid: Faker::Internet.uuid,
         name: Faker::Name.name,
         slug: Faker::Internet.slug,
         system_code: Faker::Internet.slug,
-        parent: children
+        parent: sub_service_category
       )
     end
   end
