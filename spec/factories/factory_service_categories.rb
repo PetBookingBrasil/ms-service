@@ -7,10 +7,5 @@ FactoryBot.define do
     name  { "Example of Service" }
     slug { Faker::Internet.uuid }
     system_code { Faker::Internet.slug }
-
-    # trait :with_parent do
-    #   parent { factory :service_category }
-    # end
-    
   end
 end
