@@ -1,7 +1,6 @@
 class ServiceCategoriesController < ApplicationController
   def index
-    # render json: ServiceCategory.roots.map{|t| { root: t.attributes, descendants: t.descendants } }
-    render json: ServiceCategory.hash_tree
+    render json: ServiceCategory.arrange_serializable
   end
 
   def create
