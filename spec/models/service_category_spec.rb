@@ -22,14 +22,5 @@ RSpec.describe ServiceCategory, type: :model do
         expect(subject.errors).to have(4).items
       end
     end
-
-    describe "error with parent" do
-      subject { create(:service_category, parent: create(:service_category)) }
-      
-      it "should have parent error" do
-        subject.parent_id = 999
-        expect(subject.parent).to be_nil
-      end
-    end
   end
 end

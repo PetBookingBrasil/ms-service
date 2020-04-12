@@ -24,6 +24,6 @@ RSpec.describe ServiceCategoriesController do
     it "returns service categories with childrens" do
       expect(body).to have(10).items
     end
-    
+
   end
 end
