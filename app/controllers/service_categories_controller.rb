@@ -4,7 +4,7 @@ class ServiceCategoriesController < ApplicationController
   end
 
   def search
-    render json: ServiceCategory.search(params[:search])
+    render json: ServiceCategory.where(business_id: params[:business_id])
   end
 
   def create
