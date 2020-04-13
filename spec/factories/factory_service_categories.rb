@@ -11,5 +11,9 @@ FactoryBot.define do
     slug { generate(:rand_sequence) }
     system_code { generate(:rand_sequence) }
     name  { "Example of Service" }
+    
+    trait :with_parent do
+      parent { create(:service_category) }
+    end
   end
 end
