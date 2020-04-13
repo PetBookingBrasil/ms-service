@@ -76,36 +76,64 @@ RSpec.describe ServiceCategoriesController do
     end
   end
 
-  describe 'Endpoint to service category creation' do
+  describe 'Endpoint to create a service category' do
     let(:body) { JSON.parse(response.body) }
-    let!(:service_category) { build(:service_category, :with_parent) }
+    let(:service_category) { build(:service_category, :with_parent) }
+    let(:valid_attributes) { attributes_for(:service_category) }
 
-    context 'save service category root' do
-      let(:valid_attributes) { attributes_for(:service_category) }
+    context 'with valid paramters' do
+      it 'creates a ServiceCategory' do
+        expect {
+          post :create, params: { service_category: valid_attributes }
+        }.to change(ServiceCategory, :count).by(1)
+      end
+    end
 
-      context 'with valid paramters' do
-        it 'creates a ServiceCategory' do
-          expect {
-            post :create, params: { service_category: valid_attributes }
-          }.to change(ServiceCategory, :count).by(1)
-        end
+    context 'with invalid paramters' do
+      before do
+        post :create, params: { service_category: { invalid: true } }
       end
 
-      context 'with invalid paramters' do
-        before do
-          post :create, params: { service_category: { invalid: true } }
-        end
+      it 'returns http error' do
+        expect(response).to have_http_status(400)
+      end
 
-        it 'returns http error' do
-          expect(response).to have_http_status(400)
-        end
-
-        it 'returns error messages' do
-          expect(body.keys).to eql(['uuid', 'name', 'slug', 'system_code'])
-        end
+      it 'returns error messages' do
+        expect(body.keys).to eql(['uuid', 'name', 'slug', 'system_code'])
       end
     end
     
+  end
+
+  describe 'Endpoint to update a service category' do
+    let(:body) { JSON.parse(response.body) }
+    let!(:service_category) { create(:service_category, :with_parent) }
+    let(:valid_attributes) { attributes_for(:service_category) }
+
+    context 'with valid paramters' do
+      before do
+        put :update, params: { id: service_category.id, service_category: valid_attributes.merge!({ uuid: 'new-id' }) }
+      end
+
+      it 'updates a ServiceCategory' do
+        service_category.reload
+        expect(service_category.uuid).to eql('new-id')
+      end
+    end
+
+    context 'with invalid paramters' do
+      before do
+        put :update, params: { id: service_category.id, service_category: { uuid: '', name: '', slug: '', system_code: '' } }
+      end
+
+      it 'returns http error' do
+        expect(response).to have_http_status(400)
+      end
+
+      it 'returns error messages' do
+        expect(body.keys).to eql(['uuid', 'name', 'slug', 'system_code'])
+      end
+    end
   end
   
 end
