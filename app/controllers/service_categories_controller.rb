@@ -3,7 +3,7 @@ class ServiceCategoriesController < ApplicationController
     render json: ServiceCategory.arrange_serializable
   end
 
-  def search
+  def filter
     render json: ServiceCategory.where(business_id: params[:business_id])
   end
 
