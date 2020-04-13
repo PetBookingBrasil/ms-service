@@ -71,5 +71,4 @@ gem 'whenever', require: false
 gem 'grape'
 gem 'grape_on_rails_routes'
 gem 'active_model_serializers'
-gem 'closure_tree'
 gem 'ancestry'
