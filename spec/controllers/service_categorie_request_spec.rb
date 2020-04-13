@@ -26,22 +26,20 @@ RSpec.describe ServiceCategoriesController do
     end
   end
 
-  describe "Get Service Categories searching by part" do
+  describe "Get Service Categories searching by business" do
     let(:body) { JSON.parse(response.body) }
     before do
-      10.times do
-        create_list(:service_category, 10, parent: create(:service_category))
-      end
-      service_category = ServiceCategory.first
-      get :search, params: {search: service_category.uuid}
+      create_list(:service_category, 10, business_id: 1)
+      create_list(:service_category, 10, business_id: 2)
+      get :search, params: {business_id: 2}
     end
     
     it "returns http success" do
       expect(response).to have_http_status(:success)
     end
 
-    it "returns service categories by search params" do
-      expect(body).to have(1).items
+    it "returns service categories by search business" do
+      expect(body).to have(10).items
     end
   end
   
