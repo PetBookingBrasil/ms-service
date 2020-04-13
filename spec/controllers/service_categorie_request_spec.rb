@@ -31,7 +31,7 @@ RSpec.describe ServiceCategoriesController do
     before do
       create_list(:service_category, 10, business_id: 1)
       create_list(:service_category, 10, business_id: 2)
-      get :search, params: {business_id: 2}
+      get :filter, params: {business_id: 2}
     end
     
     it "returns http success" do
