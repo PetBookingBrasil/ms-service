@@ -4,7 +4,12 @@ class ServiceCategoriesController < ApplicationController
   end
 
   def filter
-    render json: ServiceCategory.where(business_id: params[:business_id])
+    results = []
+    if params[:business_id]
+      results = ServiceCategory.where(business_id: params[:business_id].split('|'))
+    end
+
+    render json: results 
   end
 
   def create
