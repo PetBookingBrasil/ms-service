@@ -2,7 +2,7 @@ class ServiceCategoriesController < ApplicationController
   before_action :set_service_category, only: [:update]
   
   def index
-    render json: ServiceCategory.arrange_serializable
+    render json: ServiceCategory.arrange
   end
 
   def filter

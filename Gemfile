@@ -24,9 +24,6 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
-gem 'grape'
-gem 'grape-entity'
-gem 'jwt'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -72,6 +69,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #custom gems
 gem 'whenever', require: false
 gem 'grape'
+gem 'grape-entity'
 gem 'grape_on_rails_routes'
-gem 'active_model_serializers'
+gem 'jwt'
 gem 'ancestry'
