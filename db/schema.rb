@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_12_142802) do
+ActiveRecord::Schema.define(version: 2020_04_14_133655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "business_services", force: :cascade do |t|
+    t.bigint "service_id"
+    t.integer "business_id"
+    t.float "comission_percentage"
+    t.time "duration"
+    t.float "cost"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_business_services_on_service_id"
+  end
 
   create_table "service_categories", force: :cascade do |t|
     t.string "uuid"
@@ -28,7 +39,16 @@ ActiveRecord::Schema.define(version: 2020_04_12_142802) do
     t.index ["ancestry"], name: "index_service_categories_on_ancestry"
   end
 
-# Could not dump table "services" because of following StandardError
-#   Unknown type 'valid_applications' for column 'validations'
+  create_table "services", force: :cascade do |t|
+    t.string "uuid"
+    t.string "name"
+    t.string "slug"
+    t.string "validations"
+    t.boolean "public"
+    t.bigint "service_category_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_category_id"], name: "index_services_on_service_category_id"
+  end
 
 end

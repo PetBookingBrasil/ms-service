@@ -10,6 +10,7 @@ FactoryBot.define do
     uuid { generate(:rand_sequence) }
     slug { generate(:rand_sequence) }
     system_code { generate(:rand_sequence) }
+    business_id { 1 }
     name  { "Example of Service" }
     
     trait :with_parent do
