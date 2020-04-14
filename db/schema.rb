@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_133655) do
+ActiveRecord::Schema.define(version: 2020_04_14_144404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 2020_04_14_133655) do
     t.string "uuid"
     t.string "name"
     t.string "slug"
-    t.string "validations"
     t.boolean "public"
     t.bigint "service_category_id"
     t.datetime "created_at", precision: 6, null: false
