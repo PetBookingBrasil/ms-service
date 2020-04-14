@@ -7,4 +7,6 @@ Rails.application.routes.draw do
     end
   end
   resources :services, only: [:index, :create, :update, :destroy]
+
+  mount ::V1::Base, at: "/"
 end
