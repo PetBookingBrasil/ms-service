@@ -3,15 +3,12 @@ FactoryBot.define do
   end
 
   factory :service do
-    service_category
+    service_category { create(:service_category) }
     uuid { Faker::Internet.uuid }
     name  { Faker::Name.name }
     slug { Faker::Internet.slug }
-    'public' { true }
-
-    trait :isnt_public do
-      'public' { false }
-    end
+    business_id { 1 }
+    application { 'varejopet' }
 
     trait :petbooking do
       application { 'petbooking' }

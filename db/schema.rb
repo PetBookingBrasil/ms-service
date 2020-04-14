@@ -43,10 +43,11 @@ ActiveRecord::Schema.define(version: 2020_04_14_144404) do
     t.string "uuid"
     t.string "name"
     t.string "slug"
-    t.boolean "public"
     t.bigint "service_category_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "application"
+    t.integer "business_id"
     t.index ["service_category_id"], name: "index_services_on_service_category_id"
   end
 

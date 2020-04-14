@@ -6,4 +6,5 @@ Rails.application.routes.draw do
       get 'filter'
     end
   end
+  resources :services, only: [:index, :create, :update, :destroy]
 end
