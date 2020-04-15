@@ -4,9 +4,9 @@ FactoryBot.define do
 
   factory :service do
     service_category { create(:service_category) }
-    uuid { Faker::Internet.uuid }
+    uuid { generate(:rand_sequence) }
     name  { Faker::Name.name }
-    slug { Faker::Internet.slug }
+    slug { generate(:rand_sequence) }
     business_id { 1 }
     application { 'varejopet' }
 
