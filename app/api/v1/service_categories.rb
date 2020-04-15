@@ -35,9 +35,9 @@ module V1
       params do
         requires :id, type: Integer
       end
-      put do
+      patch do
         service_category = ServiceCategory.find(params[:id])
-        service_category.update!(service_category_params(params))
+        service_category.update!(params)
         present data: service_category
       end
 

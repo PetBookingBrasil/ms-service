@@ -14,10 +14,10 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     ::V1::ServiceCategories
   end
 
-  before :all do
-    # header "Accept", "application/vnd.petbooking-v1+json"
-    # header "X-Device", "web"
-    # header "X-Application", "petbooking"
+  before do
+    header "Accept", "application/vnd.petbooking-v1+json"
+    header "X-Device", "web"
+    header "X-Application", "petbooking"
   end
 
   describe "#index" do
@@ -117,48 +117,45 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
 
   describe "#update" do
     let!(:service_category) { create(:service_category, :with_parent) }
-    # context 'with valid paramters' do
-    #   before do
-    #     put :update, params: { id: service_category.id, service_category: valid_attributes.merge!({ uuid: 'new-id' }) }
-    #   end
+    context 'with valid paramters' do
+      let!(:response) { patch("/api/service_categories?id=#{service_category.id}", { uuid: 'new-id' } ) }
   
-    #   it 'updates a Service Category' do
-    #     service_category.reload
-    #     expect(service_category.uuid).to eql('new-id')
-    #   end
-    # end
+      it 'updates a Service Category' do
+        service_category.reload
+        
+        expect(service_category.uuid).to eql('new-id')
+      end
+    end
   
-    # context 'with invalid paramters' do
-    #   before do
-    #     put :update, params: { id: service_category.id, service_category: { uuid: '', name: '', slug: '', system_code: '' } }
-    #   end
+    context 'with invalid paramters' do
+      let!(:response) { patch("/api/service_categories?id=#{service_category.id}", { invalid: true } ) }
 
-    #   it 'returns http error' do
-    #     expect(response).to have_http_status(400)
-    #   end
+      it 'returns http error' do
+        expect(response.status).to eql(422)
+      end
 
-    #   it 'returns error messages' do
-    #     expect(body.keys).to eql(['uuid', 'name', 'slug', 'system_code'])
-    #   end
-    # end
+      it 'returns error messages' do
+        expect(body.keys).to eql(['error'])
+      end
+    end
+
+    context 'with error on update duplicate values' do
+      let!(:new_service_category) { create(:service_category) }
+      let!(:response) { patch("/api/service_categories?id=#{service_category.id}", {uuid: new_service_category.uuid} ) }
+
+      it 'returns http error' do
+        expect(response.status).to eql(422)
+      end
+
+      it 'returns key message' do
+        expect(body.keys).to eql(['error'])
+      end
+
+      it 'returns error message' do
+        expect(body).to eql({"error"=>"Validation failed: Uuid has already been taken"})
+      end
+    end
   end
-  #   context "when valid" do
-  #     before do
-  #       header "Jwt", session.token
-  #       header "X-Pet-Booking-Session-Token", session.token
-  #       user.add_user_role({ role: 'manager', resource_type: 'Business', resource_id: 1 })
-  #     end
-  #     let(:response) { put("/api/user_roles", { id: user.user_roles.last.id, resource_id: 2 }) }
-
-  #     it "returns 200" do
-  #       expect(response.status).to eq(200)
-  #     end
-
-  #     it "returns user_role" do
-  #       expect(JSON.parse(response.body)['data']['resource_id']).to eq(2)
-  #     end
-  #   end
-  # end
 
   # describe "#delete" do
   #   before do

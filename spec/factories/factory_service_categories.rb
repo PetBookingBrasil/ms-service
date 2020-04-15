@@ -1,3 +1,4 @@
+require 'faker'
 FactoryBot.define do
   factory :service_category_invalid, class: "ServiceCategory" do
   end
@@ -7,7 +8,7 @@ FactoryBot.define do
     slug { generate(:rand_sequence) }
     system_code { generate(:rand_sequence) }
     business_id { 1 }
-    name  { "Example of Service Category" }
+    name  { Faker::Name.name }
     
     trait :with_parent do
       parent { create(:service_category) }
