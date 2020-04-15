@@ -7,7 +7,7 @@ module V1
       expose :slug
       expose :system_code
       expose :business_id
-      expose :parent, using: V1::Entities::ServiceCategory
+      expose :children, using: V1::Entities::ServiceCategory
     end
   end
 end
