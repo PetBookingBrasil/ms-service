@@ -15,6 +15,7 @@ RSpec.describe BusinessService, type: :model do
     it 'should count of errors' do
       expect(subject.valid?).to be_falsey
       expect(subject.errors).to have(5).items
+      expect(subject.errors.keys).to eql([:service, :business_id, :comission_percentage, :duration, :cost])
     end
   end
 end

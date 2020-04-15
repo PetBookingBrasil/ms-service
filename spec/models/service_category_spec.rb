@@ -20,6 +20,7 @@ RSpec.describe ServiceCategory, type: :model do
       it 'should count of errors' do
         expect(subject.valid?).to be_falsey
         expect(subject.errors).to have(4).items
+        expect(subject.errors.keys).to eql([:uuid, :name, :slug, :system_code])
       end
     end
 
