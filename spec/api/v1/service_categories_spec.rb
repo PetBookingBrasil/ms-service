@@ -23,6 +23,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
   describe '#index' do
     before do
       create_list(:service_category, 10, parent_id: root_service_category.id)
+      ServiceCategory.reindex
     end
 
     let!(:response){ get("/api/service_categories") }

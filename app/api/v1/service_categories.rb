@@ -6,7 +6,8 @@ module V1
     resource :service_categories do
       desc 'List Service Categories'
       get do
-        service_categories = ServiceCategory.all
+        service_categories = ServiceCategory.search("*").results
+        
         present data: V1::Entities::ServiceCategory.represent(service_categories).as_json
       end
 

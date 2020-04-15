@@ -4,5 +4,4 @@ class Service < ApplicationRecord
   validates :uuid, :slug, uniqueness: true
 
   searchkick word_start: [:name, :slug, :application]
-
 end
