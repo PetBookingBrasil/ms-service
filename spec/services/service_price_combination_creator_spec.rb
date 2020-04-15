@@ -38,11 +38,16 @@ describe ServicePriceCombinationCreator do
         create(:service_price_variation, :breed, variations: ['Poodle', 'Beagle'])
       end
 
+      let(:service_price_variation_size) do
+        create(:service_price_variation, :size)
+      end
+
       let!(:service_price_rule) do
         create(:service_price_rule,
                service_price_variations_ids: [
                  service_price_variation_coat.id,
-                 service_price_variation_breed.id
+                 service_price_variation_breed.id,
+                 service_price_variation_size.id
                ]
         )
       end
@@ -54,10 +59,14 @@ describe ServicePriceCombinationCreator do
 
       it 'returns service price combinations with priority' do
         expect(@service_price_combinations)
-          .to eq [
-                   'Poodle_Curta', 'Poodle_Média', 'Poodle_Longa',
-                   'Beagle_Curta', 'Beagle_Média', 'Beagle_Longa'
-                 ]
+          .to eq ['Poodle_p_Curta', 'Poodle_p_Média', 'Poodle_p_Longa',
+                  'Poodle_m_Curta', 'Poodle_m_Média', 'Poodle_m_Longa',
+                  'Poodle_g_Curta', 'Poodle_g_Média', 'Poodle_g_Longa',
+                  'Poodle_gg_Curta', 'Poodle_gg_Média', 'Poodle_gg_Longa',
+                  'Beagle_p_Curta', 'Beagle_p_Média', 'Beagle_p_Longa',
+                  'Beagle_m_Curta', 'Beagle_m_Média', 'Beagle_m_Longa',
+                  'Beagle_g_Curta', 'Beagle_g_Média', 'Beagle_g_Longa',
+                  'Beagle_gg_Curta', 'Beagle_gg_Média', 'Beagle_gg_Longa']
       end
     end
   end
