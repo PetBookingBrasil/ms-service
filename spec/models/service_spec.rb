@@ -5,7 +5,6 @@ RSpec.describe Service, type: :model do
   describe 'Validations of Service' do
     let!(:service_invalid){ build(:service_invalid) }
     
-    
     describe 'validations' do
       subject { service_invalid } 
       
@@ -25,8 +24,7 @@ RSpec.describe Service, type: :model do
     end
 
     describe 'save operations' do
-      let!(:service){ build(:service) }  
-      
+      let!(:service){ build(:service) }    
 
       context 'positive scenario' do
         it 'should save Service' do
@@ -35,4 +33,20 @@ RSpec.describe Service, type: :model do
       end
     end
   end
+
+  describe "Search with Elastic Search" do
+    before do
+      create_list(:service, 100)
+    end
+
+    context "without conditions" do
+      
+    end
+
+    context "with conditions" do
+      
+    end
+    
+  end
+  
 end
