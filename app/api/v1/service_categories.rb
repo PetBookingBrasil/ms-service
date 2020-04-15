@@ -15,7 +15,7 @@ module V1
         requires :business_id, type: String
       end
       get '/search' do
-        service_categories = ServiceCategory.where(business_id: params[:business_id]).all
+        service_categories = ServiceCategory.where(business_id: params[:business_id].split(',')).all
         present data: V1::Entities::ServiceCategory.represent(service_categories).as_json
       end
       

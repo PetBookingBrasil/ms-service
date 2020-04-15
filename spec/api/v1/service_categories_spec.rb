@@ -43,6 +43,52 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     end
   end
 
+  describe "#search" do
+    before do
+      create_list(:service_category, 5, parent_id: root_service_category.id, business_id: 1)
+      create_list(:service_category, 10, parent_id: root_service_category.id, business_id: 2)
+      create_list(:service_category, 10, parent_id: root_service_category.id, business_id: 3)
+    end
+
+    
+  
+    context "when one business_id is passed" do
+      let!(:response){ get("/api/service_categories/search", {business_id: 1}) }
+
+      it "returns 200" do
+        expect(response.status).to eq(200)
+      end
+
+      it "returns Service Categories by business_id" do
+        expect(body['data'].length).to eq(6)
+      end
+    end
+
+    context "when two business_ids are passed" do
+      let!(:response){ get("/api/service_categories/search", {business_id: '1,3'}) }
+
+      it "returns 200" do
+        expect(response.status).to eq(200)
+      end
+
+      it "returns Service Categories by business_ids" do
+        expect(body['data'].length).to eq(16)
+      end
+    end
+
+    context "when invalid" do
+      let!(:response){ get("/api/service_categories/search", {business_id: nil}) }
+
+      it "returns 422" do
+        expect(response.status).to eq(422)
+      end
+
+      it "returns 0 user_roles" do
+        expect(body.keys).to eql(['error'])
+      end
+    end
+  end
+
   describe "#create" do
     let(:valid_params) { attributes_for(:service_category) }
 
@@ -68,41 +114,6 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
       end
     end
   end
-
-  
-
-  # describe "#search" do
-  #   context "when valid" do
-  #     before do
-  #       header "Jwt", session.token
-  #       header "X-Pet-Booking-Session-Token", session.token
-  #       user.add_user_role({ role: 'admin' })
-  #       user.add_user_role({ role: 'manager', resource_type: 'Business', resource_id: 1 })
-  #       UserRole.reindex
-  #     end
-  #     let(:response) { get("/api/user_roles/search", { q: '*' }) }
-
-  #     it "returns 200" do
-  #       expect(response.status).to eq(200)
-  #     end
-
-  #     it "returns user_roles" do
-  #       expect(JSON.parse(response.body)['data'].length).to eq(3)
-  #     end
-  #   end
-
-  #   context "when invalid" do
-  #     let(:response) { get("/api/user_roles/search", { q: 'invalid_q' }) }
-
-  #     it "returns 200" do
-  #       expect(response.status).to eq(200)
-  #     end
-
-  #     it "returns 0 user_roles" do
-  #       expect(JSON.parse(response.body)['data'].length).to eq(0)
-  #     end
-  #   end
-  # end
 
   # describe "#update" do
   #   before do
