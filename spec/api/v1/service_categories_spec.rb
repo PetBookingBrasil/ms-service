@@ -157,63 +157,35 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     end
   end
 
-  # describe "#delete" do
-  #   before do
-  #     session = user.sessions.create({
-  #       device: "web",
-  #       application: "petbooking",
-  #       provider: "petbooking",
-  #     })
-  #     header "Jwt", session.token
-  #     header "X-Pet-Booking-Session-Token", session.token
-  #     create(:role, :manager)
-  #   end
+  describe "#delete" do
+    let!(:service_category) { create(:service_category) }
+    before do
+      create_list(:service_category, 10, parent_id: service_category.id)
+    end
+    
+    context "when delete the children" do
+      let(:response) { delete("/api/service_categories?id=#{service_category.id}") }
 
-  #   let(:user) { create(:user) }
-  #   let(:user_role) { user.add_user_role({ role: "manager", resource_id: 1 }) }
-  #   let(:valid_params) {{ id: user_role.id, resource_id: 1 }}
-  #   let(:invalid_params) {{ id: 9999, resource_id: 1 }}
+      it "returns 200" do
+        expect(response.status).to eq(200)
+      end
 
-  # 	context "when valid" do
-  #     let(:response) { delete("/api/user_roles", valid_params) }
+      it "returns Service Category" do
+        expect(body['data']['id']).to eq(service_category.id)
+      end
+    end
 
-  #     it "returns 200" do
-  #       expect(response.status).to eq(200)
-  #     end
+    context "when invalid" do
+      context "when role does not exists" do
+        let(:response) { delete("/api/service_categories") }
 
-  #     it "returns user_role" do
-  #       expect(JSON.parse(response.body)['data']['id']).to eq(user_role.id)
-  #     end
-  #   end
+        it "returns 500" do
+          expect(response.status).to eq(500)
+        end
 
-  #   context "when invalid" do
-  #     context "when role does not exists" do
-  #       let(:response) { delete("/api/user_roles", invalid_params) }
-
-  #       it "returns 404" do
-  #         expect(response.status).to eq(404)
-  #       end
-  #     end
-
-  #     context "when user does not has permission" do
-  #       before do
-  #         session = user.sessions.create({
-  #           device: "web",
-  #           application: "petbooking",
-  #           provider: "petbooking",
-  #         })
-  #         header "Jwt", session.token
-  #         header "X-Pet-Booking-Session-Token", session.token
-  #         create(:role, :employment)
-  #       end
-  #       let(:user) { create(:user) }
-  #       let(:user_role) { user.add_user_role({ role: "employment", resource_id: 1 }) }
-  #       let(:response) { delete("/api/user_roles", valid_params) }
-
-  #       it "returns 401" do
-  #         expect(response.status).to eq(401)
-  #       end
-  #     end
-  #   end
-  # end
+        it 'returns error message' do
+        end
+      end
+    end
+  end
 end
