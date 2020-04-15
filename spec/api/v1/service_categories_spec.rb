@@ -115,20 +115,33 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     end
   end
 
-  # describe "#update" do
-  #   before do
-  #     create(:role)
-  #     create(:role, :manager)
-  #   end
-  #   let(:user) { create(:user) }
-  #   let(:session) {
-  #     user.sessions.create({
-  #       device: "web",
-  #       application: "petbooking",
-  #       provider: "petbooking",
-  #     })
-  #   }
+  describe "#update" do
+    let!(:service_category) { create(:service_category, :with_parent) }
+    # context 'with valid paramters' do
+    #   before do
+    #     put :update, params: { id: service_category.id, service_category: valid_attributes.merge!({ uuid: 'new-id' }) }
+    #   end
+  
+    #   it 'updates a Service Category' do
+    #     service_category.reload
+    #     expect(service_category.uuid).to eql('new-id')
+    #   end
+    # end
+  
+    # context 'with invalid paramters' do
+    #   before do
+    #     put :update, params: { id: service_category.id, service_category: { uuid: '', name: '', slug: '', system_code: '' } }
+    #   end
 
+    #   it 'returns http error' do
+    #     expect(response).to have_http_status(400)
+    #   end
+
+    #   it 'returns error messages' do
+    #     expect(body.keys).to eql(['uuid', 'name', 'slug', 'system_code'])
+    #   end
+    # end
+  end
   #   context "when valid" do
   #     before do
   #       header "Jwt", session.token
