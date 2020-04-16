@@ -29,6 +29,13 @@ describe ServicePriceCombinationCreator do
                   'gg-curta', 'gg-media', 'gg-longa']
 
       end
+
+      context 'with prices' do
+        it do
+          expect { described_class.new([service_price_rule]).call }
+            .to change(BusinessServicePrice, :count).by(12)
+        end
+      end
     end
 
     context 'when creates with breed and simple variations' do
@@ -70,6 +77,13 @@ describe ServicePriceCombinationCreator do
                   'beagle-g-curta', 'beagle-g-media', 'beagle-g-longa',
                   'beagle-gg-curta', 'beagle-gg-media', 'beagle-gg-longa']
 
+      end
+
+      context 'with prices' do
+        it do
+          expect { described_class.new([service_price_rule]).call }
+            .to change(BusinessServicePrice, :count).by(24)
+        end
       end
     end
   end

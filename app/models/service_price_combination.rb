@@ -5,6 +5,8 @@ class ServicePriceCombination < ApplicationRecord
 
   belongs_to :service_price_rule
 
+  has_one :business_service_price
+
   before_validation :system_code_generate, on: :create
 
   validates :name, :service_price_rule_id, :system_code, presence: true

@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_140646) do
+ActiveRecord::Schema.define(version: 2020_04_16_182923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "business_service_prices", force: :cascade do |t|
-    t.bigint "business_service_id", null: false
+    t.integer "business_service_id"
     t.bigint "service_price_combination_id", null: false
     t.decimal "price", precision: 10, scale: 2
     t.datetime "created_at", precision: 6, null: false

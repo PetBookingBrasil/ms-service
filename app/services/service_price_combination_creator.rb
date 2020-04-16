@@ -1,3 +1,5 @@
+# Returns all possible combinations based on ServicePriceRule and ServicePriceVariation classes
+# Example => ServicePriceCombinationCreator.new(service_price_rules).call
 class ServicePriceCombinationCreator
   def initialize(service_price_rules)
     @service_price_rules = service_price_rules
@@ -9,7 +11,7 @@ class ServicePriceCombinationCreator
 
       combinations = build_combinations(variations)
 
-      create_combinations(combinations, rule)
+      create_combinations_with_prices(combinations, rule)
     end
   end
 
@@ -17,6 +19,7 @@ class ServicePriceCombinationCreator
 
   attr_reader :service_price_rules
 
+  # Finds variations ordered by priorities
   def service_price_variations(ids)
     @service_price_variations ||= ServicePriceVariation
                                     .where(id: ids)
@@ -24,15 +27,28 @@ class ServicePriceCombinationCreator
                                     .pluck(:variations)
   end
 
+  # only builds the combinations based in variations attribute of the service_price_variations
   def build_combinations(variations)
     head, *rest = variations
 
     head.product *rest
   end
 
-  def create_combinations(combinations, rule)
-    combinations.each do |combination|
-      rule.service_price_combinations.create(name: combination.join(' '))
+  # Creates combinations with your prices
+  def create_combinations_with_prices(records, rule)
+    records.each do |record|
+      ActiveRecord::Base.transaction do
+        service_price_combination = rule.service_price_combinations.create(name: record.join(' '))
+
+        if service_price_combination
+          create_price(service_price_combination)
+        end
+      end
     end
+  end
+
+  # Creates price
+  def create_price(object)
+    BusinessServicePrice.create(service_price_combination: object)
   end
 end

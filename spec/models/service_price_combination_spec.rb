@@ -5,6 +5,8 @@ describe ServicePriceCombination, type: :model do
 
   describe 'associations' do
     it { should belong_to(:service_price_rule) }
+
+    it { should have_one(:business_service_price) }
   end
 
   describe 'validates' do
