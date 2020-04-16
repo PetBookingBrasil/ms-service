@@ -24,6 +24,7 @@ RSpec.describe ::V1::Services, type: :request do
   describe '#index' do
     before do
       create_list(:service, 10, service_category_id: service_category.id)
+      Service.reindex
     end
 
     let!(:response){ get("/api/services") }
@@ -41,6 +42,55 @@ RSpec.describe ::V1::Services, type: :request do
       it 'returns Service list' do
         expect(body["data"]).to have(10).items
       end
+    end
+  end
+
+  describe '#by_application' do
+    before do
+      create_list(:service, 10, service_category_id: service_category.id, business_id: 1, application: 'varejopet')
+      create_list(:service, 20, service_category_id: service_category.id, business_id: 2, application: 'varejopet')
+      create_list(:service, 20, service_category_id: service_category.id, business_id: 3, application: 'varejopet')
+      Service.reindex
+    end
+
+    
+
+    context 'when search by one business_id' do
+      let!(:response){ get("/api/services/by_application?application=varejopet&business_id=1") }
+
+      it 'returns 200' do
+        expect(response.status).to eq(200)
+      end
+
+      it 'returns correct hash structure' do
+        expect(body.keys).to eql(["data"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category"])
+      end
+# 
+      it 'returns Service list' do
+        expect(body["data"]).to have(10).items
+      end
+
+      
+    end
+
+    context 'when search by list of business_ids' do
+      let!(:response){ get("/api/services/by_application?application=varejopet&business_id=1,3") }
+
+      it 'returns 200' do
+        expect(response.status).to eq(200)
+      end
+
+      it 'returns correct hash structure' do
+        expect(body.keys).to eql(["data"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category"])
+      end
+# 
+      it 'returns Service list' do
+        expect(body["data"]).to have(30).items
+      end
+
+      
     end
   end
 

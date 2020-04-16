@@ -6,7 +6,13 @@ module V1
     resource :services do
       desc 'List Services'
       get do
-        services = Service.all
+        services = Service.search("*")
+        present data: V1::Entities::Service.represent(services).as_json
+      end
+
+      desc 'List Services by application and business_id'
+      get '/by_application' do
+        services = Service.search("*", where: { application: params[:application], business_id: params[:business_id].to_s.split(',') })
         present data: V1::Entities::Service.represent(services).as_json
       end
       

@@ -49,6 +49,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
       create_list(:service_category, 5, parent_id: root_service_category.id, business_id: 1)
       create_list(:service_category, 10, parent_id: root_service_category.id, business_id: 2)
       create_list(:service_category, 10, parent_id: root_service_category.id, business_id: 3)
+      ServiceCategory.reindex
     end
 
     
@@ -162,6 +163,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     let!(:service_category) { create(:service_category) }
     before do
       create_list(:service_category, 10, parent_id: service_category.id)
+      ServiceCategory.reindex
     end
     
     context 'delete with the childrens Service Categories' do

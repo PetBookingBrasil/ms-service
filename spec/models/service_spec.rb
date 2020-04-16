@@ -37,6 +37,7 @@ RSpec.describe Service, type: :model do
   describe "Search with Elastic Search" do
     before do
       create_list(:service, 100)
+      Service.reindex
     end
 
     context "without conditions" do

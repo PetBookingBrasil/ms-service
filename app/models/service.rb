@@ -3,5 +3,5 @@ class Service < ApplicationRecord
   validates :uuid, :name, :slug, :application, :business_id, presence: true
   validates :uuid, :slug, uniqueness: true
 
-  searchkick word_start: [:name, :slug, :application]
+  searchkick word_start: [:name, :slug, :application, :business_id]
 end
