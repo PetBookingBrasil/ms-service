@@ -8,6 +8,7 @@ module V1
       expose :business_id
       expose :application
       expose :service_category, using: V1::Entities::ServiceCategory
+      expose :children, using: V1::Entities::Service
     end
   end
 end

@@ -8,7 +8,7 @@ RSpec.describe ::V1::Services, type: :request do
 
   let(:jwt_helper) { JwtHelper.new("petbooking") }
   let(:body) { JSON.parse(response.body) }
-  let(:service) { create(:service) }
+  let!(:service) { create(:service) }
   let!(:service_category) { create(:service_category) }
 
   def app
@@ -36,12 +36,44 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
 
       it 'returns Service list' do
-        expect(body["data"]).to have(10).items
+        expect(body["data"]).to have(11).items
       end
+    end
+  end
+
+  describe 'grouped by Service Category and filter by Services applications' do
+    before do
+      create_list(:service_category, 5) do |root_service_category|
+      
+        create_list(:service, 5, service_category: root_service_category, application: service.application).each do |root_service|
+          create_list(:service, 5, :petbooking,  parent: root_service, service_category: root_service_category)
+        end
+      end
+      Service.reindex
+      ServiceCategory.reindex
+    end
+
+    let(:first_service) { Service.first }
+
+    let(:response) { get("/api/services/grouped_by_category?application=#{first_service.application}") }
+
+    it 'returns 200' do
+      expect(response.status).to eq(200)
+    end
+
+    it 'have exactly structure' do
+      expect(body.keys).to eql(['data'])
+      expect(body['data'].first.keys).to eql(['service_category', 'services'])
+      expect(Service.count).to eql(151)
+      
+    end
+
+    it "have Service root with 10 items" do
+      expect(Service.search("*", where: { application: service.application } )).to have(26).items
     end
   end
 
@@ -64,11 +96,11 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
 # 
       it 'returns Service list' do
-        expect(body["data"]).to have(10).items
+        expect(body["data"]).to have(11).items
       end
 
       
@@ -83,11 +115,11 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
 # 
       it 'returns Service list' do
-        expect(body["data"]).to have(30).items
+        expect(body["data"]).to have(31).items
       end
 
       
@@ -102,11 +134,11 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
 # 
       it 'returns Service list' do
-        expect(body["data"]).to have(50).items
+        expect(body["data"]).to have(51).items
       end
 
       

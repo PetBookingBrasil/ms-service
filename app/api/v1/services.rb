@@ -10,6 +10,18 @@ module V1
         present data: V1::Entities::Service.represent(services).as_json
       end
 
+      desc 'List Services tree by application and and grouped by Service Category'
+      get '/grouped_by_category' do
+        where = { application: params[:application] }
+        services = Service.search("*", where: where )
+        services_grouped = services.group_by{|t| t.service_category}
+        services_grouped = services_grouped.map do |service_category, services|
+          {service_category: V1::Entities::ServiceCategory.represent(service_category).as_json, services: V1::Entities::Service.represent(services).as_json}
+        end
+        
+        present data: services_grouped
+      end
+
       desc 'List Services by application and business_id'
       get '/by_application' do
         where = { application: params[:application] }
