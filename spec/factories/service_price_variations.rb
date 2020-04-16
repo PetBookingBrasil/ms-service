@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :service_price_variation do
     trait :size do
+      service_price_rule
       name { 'Porte' }
       variations { ['p', 'm', 'g', 'gg'] }
       kind { :simple }
@@ -8,6 +9,7 @@ FactoryBot.define do
     end
 
     trait :coat do
+      service_price_rule
       name { 'Pelagem' }
       variations { ['curta', 'média', 'longa'] }
       kind { :simple }
@@ -15,6 +17,7 @@ FactoryBot.define do
     end
 
     trait :breed do
+      service_price_rule
       name { 'Raça' }
       variations { ['p', 'm', 'g', 'gg'] }
       kind { :breed }

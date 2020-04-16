@@ -7,7 +7,7 @@ class ServicePriceCombinationCreator
 
   def call
     service_price_rules.each do |rule|
-      variations = service_price_variations(rule.service_price_variations_ids)
+      variations = rule.service_price_variations.pluck :variations
 
       combinations = build_combinations(variations)
 
@@ -18,14 +18,6 @@ class ServicePriceCombinationCreator
   private
 
   attr_reader :service_price_rules
-
-  # Finds variations ordered by priorities
-  def service_price_variations(ids)
-    @service_price_variations ||= ServicePriceVariation
-                                    .where(id: ids)
-                                    .order(:priority)
-                                    .pluck(:variations)
-  end
 
   # only builds the combinations based in variations attribute of the service_price_variations
   def build_combinations(variations)

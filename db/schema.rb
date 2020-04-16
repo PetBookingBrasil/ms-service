@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_182923) do
+ActiveRecord::Schema.define(version: 2020_04_16_200026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(version: 2020_04_16_182923) do
 
   create_table "service_price_rules", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "service_price_variations_ids", array: true
     t.integer "priority", null: false
     t.string "application", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -71,11 +70,11 @@ ActiveRecord::Schema.define(version: 2020_04_16_182923) do
     t.string "kind", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "service_price_rule_id", null: false
+    t.index ["service_price_rule_id"], name: "index_service_price_variations_on_service_price_rule_id"
   end
-
-# Could not dump table "services" because of following StandardError
-#   Unknown type 'valid_applications' for column 'validations'
 
   add_foreign_key "business_service_prices", "service_price_combinations"
   add_foreign_key "service_price_combinations", "service_price_rules"
+  add_foreign_key "service_price_variations", "service_price_rules"
 end

@@ -4,6 +4,7 @@ describe ServicePriceRule, type: :model do
   describe 'associations' do
     it { should have_many(:service_price_combinations) }
     it { should have_many(:business_service_prices).through(:service_price_combinations) }
+    it { should have_many(:service_price_variations) }
   end
 
   describe 'validates' do

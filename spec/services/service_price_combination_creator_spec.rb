@@ -3,16 +3,14 @@ require 'rails_helper'
 describe ServicePriceCombinationCreator do
   describe '#call' do
     context 'when creates simple variations' do
-      let(:service_price_variation_size) { create(:service_price_variation, :size) }
-      let(:service_price_variation_coat) { create(:service_price_variation, :coat) }
+      let(:service_price_rule) { create(:service_price_rule) }
 
-      let!(:service_price_rule) do
-        create(:service_price_rule,
-               service_price_variations_ids: [
-                 service_price_variation_coat.id,
-                 service_price_variation_size.id,
-               ]
-        )
+      let!(:service_price_variation_size) do
+        create(:service_price_variation, :size, service_price_rule: service_price_rule)
+      end
+
+      let!(:service_price_variation_coat) do
+        create(:service_price_variation, :coat, service_price_rule: service_price_rule)
       end
 
       before do
@@ -39,26 +37,24 @@ describe ServicePriceCombinationCreator do
     end
 
     context 'when creates with breed and simple variations' do
-      let(:service_price_variation_coat) do
-        create(:service_price_variation, :coat, variations: ['Curta', 'Média', 'Longa'])
-      end
+      let(:service_price_rule) { create(:service_price_rule) }
 
-      let(:service_price_variation_breed) do
-        create(:service_price_variation, :breed, variations: ['Poodle', 'Beagle'])
-      end
-
-      let(:service_price_variation_size) do
-        create(:service_price_variation, :size)
-      end
-
-      let!(:service_price_rule) do
-        create(:service_price_rule,
-               service_price_variations_ids: [
-                 service_price_variation_coat.id,
-                 service_price_variation_breed.id,
-                 service_price_variation_size.id
-               ]
+      let!(:service_price_variation_coat) do
+        create(:service_price_variation,
+               :coat, variations: ['Curta', 'Média', 'Longa'],
+               service_price_rule: service_price_rule
         )
+      end
+
+      let!(:service_price_variation_breed) do
+        create(:service_price_variation, :breed,
+               variations: ['Poodle', 'Beagle'],
+               service_price_rule: service_price_rule
+        )
+      end
+
+      let!(:service_price_variation_size) do
+        create(:service_price_variation, :size, service_price_rule: service_price_rule)
       end
 
       before do
