@@ -92,6 +92,25 @@ RSpec.describe ::V1::Services, type: :request do
 
       
     end
+
+    context 'list without business_id' do
+      let!(:response){ get("/api/services/by_application?application=varejopet") }
+
+      it 'returns 200' do
+        expect(response.status).to eq(200)
+      end
+
+      it 'returns correct hash structure' do
+        expect(body.keys).to eql(["data"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category"])
+      end
+# 
+      it 'returns Service list' do
+        expect(body["data"]).to have(50).items
+      end
+
+      
+    end
   end
 
   describe '#create' do

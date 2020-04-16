@@ -12,7 +12,11 @@ module V1
 
       desc 'List Services by application and business_id'
       get '/by_application' do
-        services = Service.search("*", where: { application: params[:application], business_id: params[:business_id].to_s.split(',') })
+        where = { application: params[:application] }
+        unless params[:business_id].blank?
+          where.merge!({ business_id: params[:business_id].split(',') })
+        end
+        services = Service.search("*", where: where )
         present data: V1::Entities::Service.represent(services).as_json
       end
       
