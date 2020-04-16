@@ -12,10 +12,10 @@ module V1
 
       desc 'List Services tree by application and and grouped by Service Category'
       get '/grouped_by_category' do
-        where = { application: params[:application] }
-        services = Service.search("*", where: where )
-        services_grouped = services.group_by{|t| t.service_category}
-        services_grouped = services_grouped.map do |service_category, services|
+        services = Service.search("*", where: { application: { like: "%#{params[:application] }%" } }, aggs: [:service_category_id] )#.group(:service_category)
+        services_grouped = services.group_by{|t| t.service_category_id}
+        services_grouped = services_grouped.map do |service_category_id, services|
+          service_category = ServiceCategory.search("*", where: { id: service_category_id } )
           {service_category: V1::Entities::ServiceCategory.represent(service_category).as_json, services: V1::Entities::Service.represent(services).as_json}
         end
         
