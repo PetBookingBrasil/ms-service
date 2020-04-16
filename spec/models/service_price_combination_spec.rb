@@ -13,11 +13,22 @@ describe ServicePriceCombination, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:service_price_rule_id) }
     it { should validate_presence_of(:system_code) }
-    it { should validate_uniqueness_of(:system_code) }
+
+    context 'uniqueness' do
+      before do
+        ServicePriceCombination.skip_callback(:validation, :before, :system_code_generate)
+      end
+
+      it { should validate_uniqueness_of(:system_code) }
+    end
   end
 
   describe '#system_code_generate' do
     context 'when creates service price combination' do
+      before do
+        ServicePriceCombination.set_callback(:validation, :before, :system_code_generate)
+      end
+
       context 'for first time' do
         it do
           subject
