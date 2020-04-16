@@ -31,6 +31,24 @@ RSpec.describe Service, type: :model do
           expect(service.save).to be_truthy
         end
       end
+
+      context "when have parent" do
+        let(:parent) { service }
+        before do
+          parent.save
+          create_list(:service, 5)
+          create_list(:service, 5, parent: parent)
+        end
+
+        it 'parent have 5 childrens' do
+          expect(parent.children).to have(5).items
+        end
+
+        it 'parent have 6 roots' do
+          expect(Service.roots).to have(6).items
+        end
+      end
+      
     end
   end
 

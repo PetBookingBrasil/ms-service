@@ -17,5 +17,9 @@ FactoryBot.define do
     trait :amei do
       application { 'amei' }
     end
+
+    trait :with_parent do
+      parent { create(:service) }
+    end
   end
 end

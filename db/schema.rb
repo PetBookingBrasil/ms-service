@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_144404) do
+ActiveRecord::Schema.define(version: 2020_04_16_125234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 2020_04_14_144404) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "application"
     t.integer "business_id"
+    t.string "ancestry"
+    t.index ["ancestry"], name: "index_services_on_ancestry"
     t.index ["service_category_id"], name: "index_services_on_service_category_id"
   end
 

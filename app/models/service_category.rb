@@ -14,5 +14,3 @@ class ServiceCategory < ApplicationRecord
     )
   end
 end
-
-# ServiceCategory.search("*", where: { application: '' })
