@@ -10,7 +10,9 @@ class ServiceCategory < ApplicationRecord
   def search_data
     attributes.merge(
       services: services,
-      children: self.all
+      # children: self.all
     )
   end
 end
+
+# ServiceCategory.search("*", where: { application: '' })

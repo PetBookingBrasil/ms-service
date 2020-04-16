@@ -27,3 +27,5 @@
     end
   end
 end
+
+ServiceCategory.reindex
