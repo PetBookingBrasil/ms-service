@@ -1,4 +1,8 @@
 class ServicePriceCombination < ApplicationRecord
+  extend FriendlyId
+
+  friendly_id :name, use: :slugged
+
   belongs_to :service_price_rule
 
   before_validation :system_code_generate, on: :create

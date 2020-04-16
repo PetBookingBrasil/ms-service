@@ -32,7 +32,7 @@ class ServicePriceCombinationCreator
 
   def create_combinations(combinations, rule)
     combinations.each do |combination|
-      rule.service_price_combinations.create(name: combination.join('_'))
+      rule.service_price_combinations.create(name: combination.join(' '))
     end
   end
 end
