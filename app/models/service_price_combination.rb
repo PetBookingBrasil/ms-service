@@ -9,7 +9,7 @@ class ServicePriceCombination < ApplicationRecord
 
   before_validation :system_code_generate, on: :create
 
-  validates :name, :service_price_rule_id, :system_code, presence: true
+  validates :name, :system_code, presence: true
   validates :system_code, uniqueness: true
 
   private

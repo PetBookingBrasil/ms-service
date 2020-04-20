@@ -8,5 +8,6 @@ class CreateServicePriceVariations < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    add_index :service_price_variations, :priority,  unique: true
   end
 end

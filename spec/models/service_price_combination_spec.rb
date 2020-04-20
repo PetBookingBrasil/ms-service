@@ -4,22 +4,21 @@ describe ServicePriceCombination, type: :model do
   subject { create(:service_price_combination) }
 
   describe 'associations' do
-    it { should belong_to(:service_price_rule) }
+    it { is_expected.to belong_to(:service_price_rule) }
 
-    it { should have_one(:business_service_price) }
+    it { is_expected.to have_one(:business_service_price) }
   end
 
   describe 'validates' do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:service_price_rule_id) }
-    it { should validate_presence_of(:system_code) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:system_code) }
 
     context 'uniqueness' do
       before do
         ServicePriceCombination.skip_callback(:validation, :before, :system_code_generate)
       end
 
-      it { should validate_uniqueness_of(:system_code) }
+      it { is_expected.to validate_uniqueness_of(:system_code) }
     end
   end
 

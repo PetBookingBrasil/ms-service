@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 2020_04_16_200026) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "service_price_rule_id", null: false
+    t.index ["priority"], name: "index_service_price_variations_on_priority", unique: true
     t.index ["service_price_rule_id"], name: "index_service_price_variations_on_service_price_rule_id"
   end
 
