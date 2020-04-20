@@ -6,12 +6,6 @@ module V1
       version 'v1', using: :header, vendor: :petbooking
       default_format :json
 
-      # before do
-      #   unless Consumers::AuthorizeConsumer.new(request).call
-      #     error!({ error: "Consumer not authorized." }, 401)
-      #   end
-      # end
-
       helpers do
         def permitted_params
           @permitted_params ||= declared(params, include_missing: false)

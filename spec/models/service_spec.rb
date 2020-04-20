@@ -4,10 +4,10 @@ require 'rails_helper'
 RSpec.describe Service, type: :model do
   describe 'Validations of Service' do
     let!(:service_invalid){ build(:service_invalid) }
-    
+
     describe 'validations' do
-      subject { service_invalid } 
-      
+      subject { service_invalid }
+
       it { is_expected.to validate_presence_of(:uuid) }
       it { is_expected.to validate_presence_of(:name) }
       it { is_expected.to validate_presence_of(:slug) }
@@ -24,7 +24,7 @@ RSpec.describe Service, type: :model do
     end
 
     describe 'save operations' do
-      let!(:service){ build(:service) }    
+      let!(:service){ build(:service) }
 
       context 'positive scenario' do
         it 'should save Service' do
@@ -48,24 +48,25 @@ RSpec.describe Service, type: :model do
           expect(Service.roots).to have(6).items
         end
       end
-      
+
     end
   end
 
   describe "Search with Elastic Search" do
-    before do
-      create_list(:service, 100)
-      Service.reindex
+    pending "Need more informations to build this tests" do
+      before do
+        create_list(:service, 10)
+        Service.reindex
+      end
+
+      context "without conditions" do
+      end
+
+      context "with conditions" do
+      end
+
     end
 
-    context "without conditions" do
-      
-    end
-
-    context "with conditions" do
-      
-    end
-    
   end
-  
+
 end
