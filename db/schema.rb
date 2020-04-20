@@ -27,15 +27,15 @@ ActiveRecord::Schema.define(version: 2020_04_16_125234) do
   end
 
   create_table "service_categories", force: :cascade do |t|
-    t.string "uuid"
     t.string "name"
     t.string "slug"
-    t.string "system_code"
     t.integer "business_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "parent_id"
     t.string "ancestry"
+    t.string "system_code", limit: 200, default: -> { "nextval('service_categories_system_code'::regclass)" }
+    t.string "uuid"
     t.index ["ancestry"], name: "index_service_categories_on_ancestry"
   end
 
