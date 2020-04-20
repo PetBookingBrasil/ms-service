@@ -5,10 +5,10 @@ RSpec.describe ServiceCategory, type: :model do
   describe 'Validations of Service Category' do
     let!(:service_category_invalid){ build(:service_category_invalid) }
     let!(:service_category){ build(:service_category) }
-    
+
     describe 'validations' do
-      subject { service_category_invalid } 
-      
+      subject { service_category_invalid }
+
       it { is_expected.to validate_presence_of(:uuid) }
       it { is_expected.to validate_presence_of(:name) }
       it { is_expected.to validate_presence_of(:slug) }
