@@ -2,10 +2,10 @@ require 'json'
 require 'csv'
 require 'open-uri'
 class Modules::ServiceCategory::Migration
-  attr_accessor :api_category_templates_url, :api_category_templates, :category_services
+  attr_accessor :api_category_templates_url, :api_category_templates, :service_categories
 
   def initialize
-    @category_services = []
+    @service_categories = []
     @api_category_templates_url = 'https://data.heroku.com/dataclips/mfvrqenkzekurblkekdhjkwsibfy.csv'
   end
 
@@ -23,17 +23,26 @@ class Modules::ServiceCategory::Migration
 
 
       CSV.foreach(open(@api_category_templates_url), col_sep: ",", headers: true, header_converters: :symbol) do |row|
-        @category_services << ServiceCategory.new(uuid: row[:id], name: row[:name], slug: row[:slug])
-        # puts row.to_h[:id]
-        # puts row.to_h[:name]
-        # puts row.to_h[:position]
-        # puts row.to_h[:slug]
-        # id,name,position,cover_image,slug
-        puts row.inspect
+        @service_categories << ServiceCategory.new(uuid: row[:id], name: row[:name], slug: row[:slug])
       end
-      puts @category_services.inspect
     rescue => exception
       raise exception.message
+    end
+
+    def save_service_categories
+      if @service_categories.blank?
+        puts 'Nothing to migrate'
+      else
+        @service_categories.each do |service_category|
+          if service_category.save
+            puts "#{service_category.name}: uuid ==> #{service_category.uuid} migrated"
+          else
+            puts "error to migrate #{service_category.name}: uuid ==> #{service_category.uuid}:"
+            puts service_category.errors.messages.to_sentence
+          end
+          puts "=================================================="
+        end
+      end
     end
   end
 end
