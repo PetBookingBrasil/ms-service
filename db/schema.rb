@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2020_04_20_205006) do
     t.index ["service_id"], name: "index_business_services_on_service_id"
   end
 
-  create_table "service_categories", primary_key: "uuid", id: :bigint, default: nil, force: :cascade do |t|
+  create_table "service_categories", primary_key: "uuid", id: :bigint, default: -> { "nextval('service_categories_id_seq'::regclass)" }, force: :cascade do |t|
     t.string "name"
     t.string "slug"
     t.integer "business_id"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2020_04_20_205006) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "parent_id"
     t.string "ancestry"
-    t.integer "system_code", default: -> { "nextval('service_categories_id_seq'::regclass)" }
+    t.integer "system_code"
     t.index ["ancestry"], name: "index_service_categories_on_ancestry"
   end
 

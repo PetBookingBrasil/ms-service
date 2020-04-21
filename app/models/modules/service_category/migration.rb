@@ -1,7 +1,6 @@
 require 'json'
 require 'csv'
 require 'open-uri'
-require 'net/http'
 class Modules::ServiceCategory::Migration
   attr_accessor :api_category_templates_url, :api_category_templates, :category_services
 
@@ -23,14 +22,14 @@ class Modules::ServiceCategory::Migration
       # end
 
 
-      CSV.foreach(@api_category_templates_url, headers: true, header_converters: :symbol) do |row|
+      CSV.foreach(open(@api_category_templates_url), col_sep: ",", headers: true, header_converters: :symbol) do |row|
         @category_services << ServiceCategory.new(uuid: row[:id], name: row[:name], slug: row[:slug])
         # puts row.to_h[:id]
         # puts row.to_h[:name]
         # puts row.to_h[:position]
         # puts row.to_h[:slug]
         # id,name,position,cover_image,slug
-        # puts row
+        puts row.inspect
       end
       puts @category_services.inspect
     rescue => exception
