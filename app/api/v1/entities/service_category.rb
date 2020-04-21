@@ -1,7 +1,6 @@
 module V1
   module Entities
     class ServiceCategory < Grape::Entity
-      expose :id
       expose :uuid
       expose :name
       expose :slug

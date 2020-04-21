@@ -3,7 +3,6 @@ module V1
     module ServiceCategoriesHelpers
       def service_category_params(params)
         {
-          uuid:         params[:uuid],
           name:         params[:name],
           slug:         params[:slug],
           business_id:  params[:business_id],

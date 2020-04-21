@@ -1,6 +1,5 @@
 10.times do
   service_category = ServiceCategory.create!(
-    uuid: Faker::Internet.uuid,
     name: Faker::Name.name,
     slug: Faker::Internet.uuid,
     system_code: Faker::Internet.uuid,
@@ -27,7 +26,6 @@
   end
   rand(10).times do
     children = ServiceCategory.create!(
-      uuid: Faker::Internet.uuid,
       name: Faker::Name.name,
       slug: Faker::Internet.uuid,
       system_code: Faker::Internet.uuid,
@@ -53,7 +51,6 @@
     )
     rand(10).times do
       ServiceCategory.create!(
-        uuid: Faker::Internet.uuid,
         name: Faker::Name.name,
         slug: Faker::Internet.uuid,
         system_code: Faker::Internet.uuid,

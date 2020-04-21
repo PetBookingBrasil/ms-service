@@ -22,7 +22,6 @@ module V1
       
       desc 'Creates a Service Category'
       params do
-        requires :uuid, type: String
         requires :name, type: String
         requires :slug, type: String
         requires :system_code, type: String
@@ -34,20 +33,20 @@ module V1
 
       desc 'Updates a Service Category'
       params do
-        requires :id, type: Integer
+        requires :uuid, type: Integer
       end
       patch do
-        service_category = ServiceCategory.find(params[:id])
+        service_category = ServiceCategory.find(params[:uuid])
         service_category.update!(params)
         present data: service_category
       end
 
       desc 'Deletes a Service Category'
       params do
-        requires :id, type: Integer
+        requires :uuid, type: Integer
       end
       delete do
-        service_category = ServiceCategory.find(params[:id])
+        service_category = ServiceCategory.find(params[:uuid])
         service_category.destroy!
         present data: service_category
       end
