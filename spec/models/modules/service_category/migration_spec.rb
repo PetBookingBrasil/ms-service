@@ -9,10 +9,10 @@ RSpec.describe Modules::ServiceCategory::Migration do
     end
     context "success scenario" do
       it "initialize the service categories" do
-        expect(subject.category_services).to have(0).items
+        expect(subject.service_categories).to have(0).items
       end
 
-      it "parse csv data to category service" do
+      it "parse csv data to service category" do
         expect(subject.parse_category_service).to be_truthy
       end
 

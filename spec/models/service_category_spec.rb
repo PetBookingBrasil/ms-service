@@ -9,18 +9,14 @@ RSpec.describe ServiceCategory, type: :model do
     describe 'validations' do
       subject { service_category_invalid }
 
-      it { is_expected.to validate_presence_of(:uuid) }
       it { is_expected.to validate_presence_of(:name) }
       it { is_expected.to validate_presence_of(:slug) }
-      it { is_expected.to validate_presence_of(:system_code) }
-      it { is_expected.to validate_uniqueness_of(:uuid) }
       it { is_expected.to validate_uniqueness_of(:slug) }
-      it { is_expected.to validate_uniqueness_of(:system_code) }
       it { is_expected.to be_invalid }
       it 'should count of errors' do
         expect(subject.valid?).to be_falsey
-        expect(subject.errors).to have(4).items
-        expect(subject.errors.keys).to eql([:uuid, :name, :slug, :system_code])
+        expect(subject.errors).to have(2).items
+        expect(subject.errors.keys).to eql([:name, :slug])
       end
     end
 

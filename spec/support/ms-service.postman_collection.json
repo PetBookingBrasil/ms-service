@@ -1,0 +1,384 @@
+{
+	"info": {
+		"_postman_id": "f9456780-c38c-4718-b605-0fee3f79e936",
+		"name": "ms-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "service-categories",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searching",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories/search?business_id=2,3",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories",
+								"search"
+							],
+							"query": [
+								{
+									"key": "business_id",
+									"value": "2,3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"name-asasdasdduuid\",\n\t\"slug\": \"sluasdg-asdasdasduuid\",\n\t\"business_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-with-parent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"name-uuasdasdasdsadasid\",\n\t\"slug\": \"asdsadasdslug-uuid\",\n\t\"business_id\": 1,\n\t\"parent_id\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"name-atualizado-uuid\",\n\t\"slug\": \"slug-atualizado-uuid\",\n\t\"business_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories?uuid=235",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "235"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-with-error",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"name-uuid\",\n\t\"slug\": \"slug-uuid\",\n\t\"business_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories?uuid=235",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "235"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"name-uuid\",\n\t\"slug\": \"slug-uuid\",\n\t\"business_id\": 1,\n\t\"parent_id\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories?uuid=18",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "18"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "services",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/services",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"uuid\": \"teste-uuid\",\n\t\"name\": \"name-uuid\",\n\t\"slug\": \"slug-uuid\",\n\t\"system_code\": \"system_code-uuid\",\n\t\"business_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"uuid\": \"teste-atualizado-uuid\",\n\t\"name\": \"name-atualizado-uuid\",\n\t\"slug\": \"slug-atualizado-uuid\",\n\t\"system_code\": \"system_code-atualizado-uuid\",\n\t\"business_id\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories?id=235",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "235"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-with-error",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"uuid\": \"teste-uuid\",\n\t\"name\": \"name-uuid\",\n\t\"slug\": \"slug-uuid\",\n\t\"system_code\": \"system_code-uuid\",\n\t\"business_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories?id=235",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "235"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"uuid\": \"teste-uuid\",\n\t\"name\": \"name-uuid\",\n\t\"slug\": \"slug-uuid\",\n\t\"system_code\": \"system_code-uuid\",\n\t\"business_id\": 1,\n\t\"parent_id\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search-grouped",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/services/grouped_by_category?application=ma",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"services",
+								"grouped_by_category"
+							],
+							"query": [
+								{
+									"key": "application",
+									"value": "ma"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

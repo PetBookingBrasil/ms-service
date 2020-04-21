@@ -1,7 +1,7 @@
 class ServiceCategory < ApplicationRecord
   self.primary_key = :uuid
-  
-  validates :name, :slug, :system_code, presence: true
+
+  validates :name, :slug, presence: true
   validates :slug, uniqueness: true
   has_ancestry
 

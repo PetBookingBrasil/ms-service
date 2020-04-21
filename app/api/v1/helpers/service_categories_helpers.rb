@@ -6,7 +6,6 @@ module V1
           name:         params[:name],
           slug:         params[:slug],
           business_id:  params[:business_id],
-          system_code:  params[:system_code],
           parent_id:    params[:parent_id]
         }
       end

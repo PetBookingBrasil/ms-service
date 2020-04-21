@@ -7,7 +7,7 @@ module V1
       desc 'List Service Categories'
       get do
         service_categories = ServiceCategory.search("*").results
-        
+
         present data: V1::Entities::ServiceCategory.represent(service_categories).as_json
       end
 
@@ -19,15 +19,15 @@ module V1
         service_categories = ServiceCategory.where(business_id: params[:business_id].split(',')).all
         present data: V1::Entities::ServiceCategory.represent(service_categories).as_json
       end
-      
+
       desc 'Creates a Service Category'
       params do
         requires :name, type: String
         requires :slug, type: String
-        requires :system_code, type: String
       end
       post do
         service_category = ServiceCategory.create!(service_category_params(params))
+        service_category.reload
         present data: V1::Entities::ServiceCategory.represent(service_category).as_json
       end
 
@@ -35,7 +35,7 @@ module V1
       params do
         requires :uuid, type: Integer
       end
-      patch do
+      put do
         service_category = ServiceCategory.find(params[:uuid])
         service_category.update!(params)
         present data: service_category

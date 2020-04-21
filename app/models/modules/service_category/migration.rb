@@ -6,7 +6,7 @@ class Modules::ServiceCategory::Migration
 
   def initialize
     @service_categories = []
-    @api_category_templates_url = 'https://data.heroku.com/dataclips/mfvrqenkzekurblkekdhjkwsibfy.csv'
+    @api_category_templates_url = 'https://data.heroku.com/dataclips/cqbcqtbwimdrchvqyhvfurqygzgf.csv?access-token=0e7031b1-4093-4a50-a01f-802bfbbe0eb0'
   end
 
 

@@ -1,4 +1,4 @@
-require 'spec_helper' 
+require 'spec_helper'
 
 RSpec.describe ::V1::ServiceCategories, type: :request do
   include Rack::Test::Methods
@@ -22,7 +22,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
 
   describe '#index' do
     before do
-      create_list(:service_category, 10, parent_id: root_service_category.id)
+      create_list(:service_category, 10, parent_id: root_service_category.uuid)
       ServiceCategory.reindex
     end
 
@@ -35,7 +35,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(['id', 'uuid', 'name', 'slug', 'system_code', 'business_id', 'children'])
+        expect(body["data"].first.keys).to eql(['uuid', 'name', 'slug', 'system_code', 'business_id', 'children'])
       end
 
       it 'returns Service Categories list' do
@@ -46,14 +46,14 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
 
   describe '#search' do
     before do
-      create_list(:service_category, 5, parent_id: root_service_category.id, business_id: 1)
-      create_list(:service_category, 10, parent_id: root_service_category.id, business_id: 2)
-      create_list(:service_category, 10, parent_id: root_service_category.id, business_id: 3)
+      create_list(:service_category, 5, parent_id: root_service_category.uuid, business_id: 1)
+      create_list(:service_category, 10, parent_id: root_service_category.uuid, business_id: 2)
+      create_list(:service_category, 10, parent_id: root_service_category.uuid, business_id: 3)
       ServiceCategory.reindex
     end
 
-    
-  
+
+
     context 'when one business_id is passed' do
       let!(:response){ get("/api/service_categories/search", {business_id: 1}) }
 
@@ -120,17 +120,17 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
   describe '#update' do
     let!(:service_category) { create(:service_category, :with_parent) }
     context 'with valid paramters' do
-      let!(:response) { patch("/api/service_categories?id=#{service_category.id}", { uuid: 'new-id' } ) }
-  
+      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", { name: 'new-name' } ) }
+
       it 'updates a Service Category' do
         service_category.reload
-        
-        expect(service_category.uuid).to eql('new-id')
+
+        expect(service_category.name).to eql('new-name')
       end
     end
-  
+
     context 'with invalid paramters' do
-      let!(:response) { patch("/api/service_categories?id=#{service_category.id}", { invalid: true } ) }
+      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", { invalid: true } ) }
 
       it 'returns http error' do
         expect(response.status).to eql(422)
@@ -143,7 +143,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
 
     context 'with error on update duplicate values' do
       let!(:new_service_category) { create(:service_category) }
-      let!(:response) { patch("/api/service_categories?id=#{service_category.id}", {uuid: new_service_category.uuid} ) }
+      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", {uuid: new_service_category.uuid} ) }
 
       it 'returns http error' do
         expect(response.status).to eql(422)
@@ -162,19 +162,19 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
   describe '#delete' do
     let!(:service_category) { create(:service_category) }
     before do
-      create_list(:service_category, 10, parent_id: service_category.id)
+      create_list(:service_category, 10, parent_id: service_category.uuid)
       ServiceCategory.reindex
     end
-    
+
     context 'delete with the childrens Service Categories' do
-      let(:response) { delete("/api/service_categories?id=#{service_category.id}") }
+      let(:response) { delete("/api/service_categories?uuid=#{service_category.uuid}") }
 
       it 'returns 200' do
         expect(response.status).to eq(200)
       end
 
       it 'returns Service Category' do
-        expect(body['data']['id']).to eq(service_category.id)
+        expect(body['data']['uuid']).to eq(service_category.uuid)
       end
     end
 

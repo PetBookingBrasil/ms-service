@@ -2,7 +2,6 @@
   service_category = ServiceCategory.create!(
     name: Faker::Name.name,
     slug: Faker::Internet.uuid,
-    system_code: Faker::Internet.uuid,
     business_id: rand(1..3)
   )
   rand(5).times do
@@ -28,7 +27,6 @@
     children = ServiceCategory.create!(
       name: Faker::Name.name,
       slug: Faker::Internet.uuid,
-      system_code: Faker::Internet.uuid,
       parent: service_category,
       business_id: rand(1..3)
     )
@@ -53,7 +51,6 @@
       ServiceCategory.create!(
         name: Faker::Name.name,
         slug: Faker::Internet.uuid,
-        system_code: Faker::Internet.uuid,
         parent: children,
         business_id: rand(1..3)
       )
