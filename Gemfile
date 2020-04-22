@@ -27,6 +27,8 @@ gem 'rack-cors'
 gem 'enumerize', '~> 2.3', '>= 2.3.1'
 gem 'friendly_id', '~> 5.3'
 
+gem 'jwt', '~> 1.5.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -72,5 +74,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #custom gems
 gem 'whenever', require: false
 gem 'grape'
+gem 'grape-entity'
 gem 'grape_on_rails_routes'
 gem 'closure_tree'
