@@ -128,4 +128,45 @@ describe V1::ServicePriceRules, type: :request do
       it { expect(last_response.status).to eq(500) }
     end
   end
+
+  describe '#create' do
+    context 'when valid' do
+      let(:service_price_rule_one) do
+        attributes_for(:service_price_rule,
+                       service_price_variations_attributes: [
+                         attributes_for(:service_price_variation, :size),
+                         attributes_for(:service_price_variation, :coat)
+                       ]
+        )
+      end
+
+      let(:service_price_rule_two) do
+        attributes_for(:service_price_rule,
+                       service_price_variations_attributes: [
+                         attributes_for(:service_price_variation, :coat),
+                         attributes_for(:service_price_variation, :breed)
+                       ]
+        )
+      end
+
+      let(:params) do
+        { service_price_rules: [service_price_rule_one, service_price_rule_two] }
+      end
+
+      let(:response) { post("/api/service_price_rules", params) }
+
+      it { expect { response }.to change(ServicePriceRule, :count).by(2) }
+      it { expect { response }.to change(ServicePriceVariation, :count).by(4) }
+      it { expect { response }.to change(ServicePriceCombination, :count).by(24) }
+      it { expect { response }.to change(BusinessServicePrice, :count).by(24) }
+
+      it { expect(response.status).to eq(201) }
+    end
+
+    context 'when invalid' do
+      let!(:response) { post("/api/service_price_rules", {}) }
+
+      it { expect(last_response.status).to eq(500) }
+    end
+  end
 end

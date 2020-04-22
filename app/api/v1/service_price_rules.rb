@@ -1,6 +1,7 @@
 module V1
   class ServicePriceRules < Grape::API
     include ::V1::Defaults
+    helpers Helpers::AuthenticatorHelpers
 
     resource :service_price_rules do
       desc "Return all service_price_rules for current application"
@@ -27,12 +28,30 @@ module V1
           end
         end
       end
-
       put do
         @service_price_rule = ServicePriceRule.find params[:id]
         if @service_price_rule.update(params[:service_price_rule])
           Pricing::ServicePriceCombinationUpdater.new(@service_price_rule).call
         end
+      end
+
+      desc 'Creates service price rules'
+      params do
+        requires :service_price_rules, type: Array do
+          requires :name, type: String
+          requires :priority, type: Integer
+          requires :application, type: String
+          requires :service_price_variations_attributes, type: Array do
+            requires :name, type: String
+            requires :kind, type: String
+            requires :priority, type: String
+            requires :variations, type: Array
+          end
+        end
+      end
+      post do
+        @service_price_rules = ServicePriceRule.create!(params[:service_price_rules])
+        Pricing::ServicePriceCombinationCreator.new(@service_price_rules).call
       end
     end
   end
