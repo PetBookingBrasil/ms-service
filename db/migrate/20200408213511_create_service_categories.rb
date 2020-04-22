@@ -7,6 +7,11 @@ class CreateServiceCategories < ActiveRecord::Migration[6.0]
       t.integer :system_code
       t.integer :business_id
       t.integer :ancestry_id
+      t.integer :position
+
+      t.string :cover_image
+      t.string :html_class_name
+      t.string :icon
 
       t.timestamps
     end
