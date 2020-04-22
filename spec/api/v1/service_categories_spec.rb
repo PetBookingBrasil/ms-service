@@ -140,23 +140,6 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
         expect(body.keys).to eql(['error'])
       end
     end
-
-    context 'with error on update duplicate values' do
-      let!(:new_service_category) { create(:service_category) }
-      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", {uuid: new_service_category.uuid} ) }
-
-      it 'returns http error' do
-        expect(response.status).to eql(422)
-      end
-
-      it 'returns key message' do
-        expect(body.keys).to eql(['error'])
-      end
-
-      it 'returns error message' do
-        expect(body).to eql({"error"=>"Validation failed: Uuid has already been taken"})
-      end
-    end
   end
 
   describe '#delete' do
