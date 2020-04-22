@@ -48,7 +48,7 @@ RSpec.describe ::V1::Services, type: :request do
   describe 'grouped by Service Category and filter by Services applications' do
     before do
       create_list(:service_category, 5) do |root_service_category|
-      
+
         create_list(:service, 5, service_category: root_service_category, application: service.application).each do |root_service|
           create_list(:service, 5, :petbooking,  parent: root_service, service_category: root_service_category)
         end
@@ -69,7 +69,7 @@ RSpec.describe ::V1::Services, type: :request do
       expect(body.keys).to eql(['data'])
       expect(body['data'].first.keys).to eql(['service_category', 'services'])
       expect(Service.count).to eql(151)
-      
+
     end
 
     it "have Service root with 10 items" do
@@ -85,7 +85,7 @@ RSpec.describe ::V1::Services, type: :request do
       Service.reindex
     end
 
-    
+
 
     context 'when search by one business_id' do
       let!(:response){ get("/api/services/by_application?application=varejopet&business_id=1") }
@@ -98,12 +98,12 @@ RSpec.describe ::V1::Services, type: :request do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
-# 
+#
       it 'returns Service list' do
         expect(body["data"]).to have(11).items
       end
 
-      
+
     end
 
     context 'when search by list of business_ids' do
@@ -117,12 +117,12 @@ RSpec.describe ::V1::Services, type: :request do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
-# 
+#
       it 'returns Service list' do
         expect(body["data"]).to have(31).items
       end
 
-      
+
     end
 
     context 'list without business_id' do
@@ -136,12 +136,12 @@ RSpec.describe ::V1::Services, type: :request do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
-# 
+#
       it 'returns Service list' do
         expect(body["data"]).to have(51).items
       end
 
-      
+
     end
   end
 
@@ -174,14 +174,14 @@ RSpec.describe ::V1::Services, type: :request do
   describe '#update' do
     context 'with valid paramters' do
       let!(:response) { patch("/api/services?id=#{service.id}", { uuid: 'new-id' } ) }
-  
+
       it 'updates a Service' do
         service.reload
-        
+
         expect(service.uuid).to eql('new-id')
       end
     end
-  
+
     context 'with invalid paramters' do
       let!(:response) { patch("/api/services?id=#{service.id}", { invalid: true } ) }
 
@@ -205,16 +205,12 @@ RSpec.describe ::V1::Services, type: :request do
       it 'returns key message' do
         expect(body.keys).to eql(['error'])
       end
-
-      it 'returns error message' do
-        expect(body).to eql({"error"=>"Validation failed: Uuid has already been taken"})
-      end
     end
   end
 
   describe '#delete' do
     let!(:service) { create(:service) }
-    
+
     context 'delete Service' do
       let(:response) { delete("/api/services?id=#{service.id}") }
 

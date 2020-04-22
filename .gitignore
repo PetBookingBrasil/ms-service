@@ -162,3 +162,4 @@ yarn-debug.log*
 id_rsa_bitbucket
 id_rsa_bitbucket.pub
 .DS_Store
+.idea/
