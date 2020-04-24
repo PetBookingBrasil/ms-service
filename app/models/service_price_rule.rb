@@ -4,4 +4,6 @@ class ServicePriceRule < ApplicationRecord
   has_many :service_price_variations, -> { order :priority }
 
   validates :name, :priority, :application, presence: true
+
+  scope :by_application, -> value { where(application: value) }
 end

@@ -16,7 +16,7 @@ RSpec.configure do |config|
   end
 
   config.include FactoryBot::Syntax::Methods
-  config.include RSpec::Rails::RequestExampleGroup, type: :request, file_path: /spec\/api/
+  config.include RSpec::Rails::RequestExampleGroup, type: :request, file_path: /spec\/requests/
 
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true

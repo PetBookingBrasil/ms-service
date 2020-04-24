@@ -1,10 +1,9 @@
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe ::V1::ServiceCategories do
   include Rack::Test::Methods
   include V1::Helpers::AuthenticatorHelpers
 
-  ENV["PETBOOKING_SECRET"] = "abc123"
   let(:jwt_helper) { JwtHelper.new("petbooking") }
 
   def app
