@@ -8,11 +8,9 @@ module Consumers
     end
 
     def call
-      begin
-        @file['consumers'][@application]['secret']
-      rescue
-        nil
-      end
+      @file['consumers'][@application]['secret']
+    rescue
+      nil
     end
   end
 end
