@@ -2,7 +2,6 @@ require 'spec_helper'
 
 RSpec.describe ::V1::ServiceCategories, type: :request do
   include Rack::Test::Methods
-  # include V1::Helpers::AuthenticatorHelpers
 
   ENV["PETBOOKING_SECRET"] = 'abc123'
 

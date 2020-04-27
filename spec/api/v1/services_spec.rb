@@ -2,7 +2,6 @@ require 'spec_helper'
 
 RSpec.describe ::V1::Services, type: :request do
   include Rack::Test::Methods
-  # include V1::Helpers::AuthenticatorHelpers
 
   ENV["PETBOOKING_SECRET"] = "abc123"
 
@@ -98,7 +97,7 @@ RSpec.describe ::V1::Services, type: :request do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
-# 
+
       it 'returns Service list' do
         expect(body["data"]).to have(11).items
       end
@@ -117,7 +116,7 @@ RSpec.describe ::V1::Services, type: :request do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
-# 
+
       it 'returns Service list' do
         expect(body["data"]).to have(31).items
       end
@@ -136,7 +135,7 @@ RSpec.describe ::V1::Services, type: :request do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
       end
-# 
+      
       it 'returns Service list' do
         expect(body["data"]).to have(51).items
       end
