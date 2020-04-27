@@ -1,0 +1,8 @@
+pt-BR:
+  activerecord:
+    errors:
+      models:
+        service_price_variation:
+          attributes:
+            base:
+              has_registered_price: Variação que tenha preço cadastrado, não deve ser alterada.

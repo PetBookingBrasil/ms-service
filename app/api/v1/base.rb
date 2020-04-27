@@ -3,5 +3,6 @@ module V1
     mount V1::ServiceCategories
     mount V1::ServicePriceRules
     mount V1::Services
+    mount V1::ServicePriceRules
   end
 end

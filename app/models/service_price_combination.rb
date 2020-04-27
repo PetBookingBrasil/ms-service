@@ -5,7 +5,7 @@ class ServicePriceCombination < ApplicationRecord
 
   belongs_to :service_price_rule
 
-  has_one :business_service_price
+  has_one :business_service_price, dependent: :destroy
 
   validates :name, presence: true
 end
