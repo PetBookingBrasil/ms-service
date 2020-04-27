@@ -52,26 +52,4 @@ RSpec.describe Service, type: :model do
     end
   end
 
-  describe "Search with Elastic Search" do
-    pending "Need more informations to build this tests" do
-
-
-      context "without conditions" do
-        before do
-          create_list(:service, 10)
-          Service.reindex
-        end
-      end
-
-      context "with conditions" do
-        before do
-          create_list(:service, 10)
-          Service.reindex
-        end
-      end
-
-    end
-
-  end
-
 end

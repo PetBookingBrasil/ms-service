@@ -1,0 +1,6 @@
+pt-BR:
+  enumerize:
+    service_price_variation:
+      kind:
+        simple: Simples
+        breed: Raça
