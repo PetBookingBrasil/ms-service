@@ -11,6 +11,13 @@ module V1
         present data: V1::Entities::ServiceCategory.represent(service_categories).as_json
       end
 
+      desc 'HER integration'
+      get '/list' do
+        service_categories = ServiceCategory.search("*").results
+
+        present V1::Entities::ServiceCategory.represent(service_categories).as_json
+      end
+
       desc 'Search Service Categories by business_id'
       params do
         requires :business_id, type: String

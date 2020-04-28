@@ -9,16 +9,6 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
   let(:root_service_category) { create(:service_category) }
   let(:body) { JSON.parse(response.body) }
 
-  def app
-    ::V1::ServiceCategories
-  end
-
-  before do
-    header 'Accept', "application/vnd.petbooking-v1+json"
-    header 'X-Device', "web"
-    header 'X-Application', "petbooking"
-  end
-
   describe '#index' do
     before do
       create_list(:service_category, 10, parent_id: root_service_category.uuid)
