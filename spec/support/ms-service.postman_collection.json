@@ -27,6 +27,25 @@
 					"response": []
 				},
 				{
+					"name": "list-with-her",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_host}}/api/service_categories/list",
+							"host": [
+								"{{dev_host}}"
+							],
+							"path": [
+								"api",
+								"service_categories",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "searching",
 					"request": {
 						"method": "GET",
@@ -230,6 +249,33 @@
 					"response": []
 				},
 				{
+					"name": "search-grouped",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/services/grouped_by_category?application=ma",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"services",
+								"grouped_by_category"
+							],
+							"query": [
+								{
+									"key": "application",
+									"value": "ma"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "create",
 					"request": {
 						"method": "POST",
@@ -344,33 +390,6 @@
 							"path": [
 								"api",
 								"service_categories"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "search-grouped",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/services/grouped_by_category?application=ma",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"services",
-								"grouped_by_category"
-							],
-							"query": [
-								{
-									"key": "application",
-									"value": "ma"
-								}
 							]
 						}
 					},
