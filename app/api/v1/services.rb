@@ -6,13 +6,17 @@ module V1
     resource :services do
       desc 'List Services'
       get do
-        services = Service.search("*")
+        services = Service.search("*", {limit: 10}).results
         present data: V1::Entities::Service.represent(services).as_json
       end
 
       desc 'List Services tree by application and and grouped by Service Category'
       get '/grouped_by_category' do
-        services = Service.search("*", where: { application: { like: "%#{params[:application] }%" } }, aggs: [:service_category_id] )
+        conditions = { application: { like: "%#{params[:application] }%" } }
+        if params[:business_id] != nil
+          conditions = conditions.merge({ business_id: params[:business_id] })
+        end
+        services = Service.search("*", where: conditions, aggs: [:service_category_id] )
         services_grouped = services.group_by{|t| t.service_category_id}
         services_grouped = services_grouped.map do |service_category_id, services|
           service_category = ServiceCategory.search("*", where: { id: service_category_id } )
