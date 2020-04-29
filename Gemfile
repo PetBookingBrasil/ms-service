@@ -26,9 +26,14 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'rack-cors'
 gem 'enumerize', '~> 2.3', '>= 2.3.1'
 gem 'friendly_id', '~> 5.3'
-
-gem 'jwt', '~> 1.5.0'
 gem 'dotenv-rails', '~> 2.7.5'
+gem 'whenever', require: false
+gem 'grape'
+gem 'grape-entity'
+gem 'grape_on_rails_routes'
+gem 'jwt'
+gem 'ancestry'
+gem 'searchkick', '~> 4.1.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -72,11 +77,3 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-#custom gems
-gem 'whenever', require: false
-gem 'grape'
-gem 'grape-entity'
-gem 'grape_on_rails_routes'
-gem 'jwt'
-gem 'ancestry'
-gem 'searchkick', '~> 4.1.0'
