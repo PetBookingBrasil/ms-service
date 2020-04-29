@@ -6,7 +6,7 @@ describe ServicePriceCombination, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:service_price_rule) }
 
-    it { is_expected.to have_one(:business_service_price) }
+    it { is_expected.to have_one(:business_service_price).dependent(:destroy) }
   end
 
   describe 'validates' do

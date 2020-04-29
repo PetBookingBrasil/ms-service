@@ -4,7 +4,9 @@ describe ServicePriceVariation, type: :model do
   subject { create(:service_price_variation, :size) }
 
   describe 'associations' do
-    it { is_expected.to belong_to(:service_price_rule) }
+    it { is_expected.to belong_to(:service_price_rule).inverse_of(:service_price_variations) }
+
+    it { is_expected.to have_many(:service_price_variations).through(:service_price_rule) }
   end
 
   describe 'validates' do
