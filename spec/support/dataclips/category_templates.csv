@@ -1,0 +1,7 @@
+id,name,position,cover_image,slug,cover_image_processing,starts_at,ends_at,html_class_name,icon
+1,Banho e Tosa,1,1530932395.png,banho-e-tosa,false,,,wash,1541677789.png
+3,Consulta veterinária,2,1530932580.png,consulta-veterinaria,false,,,vet,1541690747.png
+4,Adestramento,3,1530932854.png,adestramento,false,,,training,1541690760.png
+12,Serviços 24 Horas,4,1530933318.png,servicos-24-horas,false,,,"",1541690773.png
+15,Dog Walker e Pet Sitter,5,1530933331.png,dog-walker-e-pet-sitter,false,,,DogWalkerPetSitter,1541690789.png
+16,Varejonline,7,,varejonline,false,,,"",

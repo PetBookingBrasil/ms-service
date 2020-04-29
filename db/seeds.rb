@@ -1,26 +1,62 @@
-10.times do |t|
-  service_category = ServiceCategory.create(
-    uuid: Faker::Internet.uuid,
+10.times do
+  service_category = ServiceCategory.create!(
     name: Faker::Name.name,
-    slug: Faker::Internet.slug,
-    system_code: Faker::Internet.slug,
+    slug: Faker::Internet.uuid,
+    business_id: rand(1..3)
   )
-  rand(10).times do 
-    sub_service_category = ServiceCategory.create(
+  rand(5).times do
+    service = Service.create!(
+      service_category: service_category,
       uuid: Faker::Internet.uuid,
       name: Faker::Name.name,
-      slug: Faker::Internet.slug,
-      system_code: Faker::Internet.slug,
-      parent: service_category
+      slug: Faker::Internet.uuid,
+      application: service_category.name,
+      business_id: rand(1..3)
     )
-    rand(20).times do
-      ServiceCategory.create(
-        uuid: Faker::Internet.uuid,
+    Service.create!(
+      parent: service,
+      service_category: service_category,
+      uuid: Faker::Internet.uuid,
+      name: Faker::Name.name,
+      slug: Faker::Internet.uuid,
+      application: service_category.name,
+      business_id: rand(1..3)
+    )
+  end
+  rand(10).times do
+    children = ServiceCategory.create!(
+      name: Faker::Name.name,
+      slug: Faker::Internet.uuid,
+      parent: service_category,
+      business_id: rand(1..3)
+    )
+    service = Service.create!(
+      service_category: children,
+      uuid: Faker::Internet.uuid,
+      name: Faker::Name.name,
+      slug: Faker::Internet.uuid,
+      application: children.name,
+      business_id: rand(1..3)
+    )
+    Service.create!(
+      parent: service,
+      service_category: children,
+      uuid: Faker::Internet.uuid,
+      name: Faker::Name.name,
+      slug: Faker::Internet.uuid,
+      application: children.name,
+      business_id: rand(1..3)
+    )
+    rand(10).times do
+      ServiceCategory.create!(
         name: Faker::Name.name,
-        slug: Faker::Internet.slug,
-        system_code: Faker::Internet.slug,
-        parent: sub_service_category
+        slug: Faker::Internet.uuid,
+        parent: children,
+        business_id: rand(1..3)
       )
     end
   end
 end
+
+ServiceCategory.reindex
+Service.reindex

@@ -12,6 +12,14 @@ module V1
       def check(token)
         JwtHelper.new(headers['X-Application']).check(token)
       end
+
+      def decoded_params
+        decode(params[:jwt])
+      end
+
+      def token_header
+        headers['Jwt']
+      end
     end
   end
 end
