@@ -8,6 +8,12 @@ RSpec.describe ::V1::Services, type: :request do
   let!(:service) { create(:service) }
   let!(:service_category) { create(:service_category) }
 
+  before do
+    header "Accept", "application/vnd.petbooking-v1+json"
+    header "X-Application", "petbooking"
+    header "Jwt", jwt_helper.encode("abc123")
+  end
+
   describe '#index' do
     before do
       create_list(:service, 10, service_category_id: service_category.id)
@@ -27,7 +33,7 @@ RSpec.describe ::V1::Services, type: :request do
       end
 
       it 'returns Service list' do
-        expect(body["data"]).to have(11).items
+        expect(body["data"]).to have(10).items
       end
     end
   end
