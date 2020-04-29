@@ -60,6 +60,8 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
+    ancestry (3.0.7)
+      activerecord (>= 3.2.0)
     better_errors (2.6.0)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -70,7 +72,7 @@ GEM
       msgpack (~> 1.0)
     brakeman (4.8.1)
     builder (3.2.4)
-    byebug (11.1.1)
+    byebug (11.1.2)
     capistrano (3.13.0)
       airbrussh (>= 1.0.0)
       i18n
@@ -86,9 +88,6 @@ GEM
       xpath (~> 3.2)
     childprocess (3.0.0)
     chronic (0.10.2)
-    closure_tree (7.1.0)
-      activerecord (>= 4.2.10)
-      with_advisory_lock (>= 4.0.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
@@ -118,6 +117,14 @@ GEM
       dry-equalizer (~> 0.3)
       dry-inflector (~> 0.1, >= 0.1.2)
       dry-logic (~> 1.0, >= 1.0.2)
+    elasticsearch (7.6.0)
+      elasticsearch-api (= 7.6.0)
+      elasticsearch-transport (= 7.6.0)
+    elasticsearch-api (7.6.0)
+      multi_json
+    elasticsearch-transport (7.6.0)
+      faraday (~> 1)
+      multi_json
     enumerize (2.3.1)
       activesupport (>= 3.2)
     erubi (1.9.0)
@@ -128,19 +135,24 @@ GEM
       railties (>= 4.2.0)
     faker (2.11.0)
       i18n (>= 1.6, < 2)
+    faraday (1.0.1)
+      multipart-post (>= 1.2, < 3)
     ffi (1.12.2)
     formatador (0.2.5)
     friendly_id (5.3.0)
       activerecord (>= 4.0.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    grape (1.3.1)
+    grape (1.3.2)
       activesupport
       builder
       dry-types (>= 1.1)
       mustermann-grape (~> 1.0.0)
       rack (>= 1.3.0)
       rack-accept
+    grape-entity (0.8.0)
+      activesupport (>= 3.0.0)
+      multi_json (>= 1.3.2)
     grape_on_rails_routes (0.3.2)
       rails (>= 3.1.1)
     guard (2.16.2)
@@ -157,8 +169,10 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    hashie (4.1.0)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
+    jwt (2.2.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -177,14 +191,16 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.14.0)
     msgpack (1.3.3)
+    multi_json (1.14.1)
+    multipart-post (2.1.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.0.1)
       mustermann (>= 1.0.0)
     nenv (0.3.0)
-    net-scp (2.0.0)
-      net-ssh (>= 2.6.5, < 6.0.0)
-    net-ssh (5.2.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (6.0.0)
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
@@ -192,7 +208,7 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     pg (1.2.3)
-    pry (0.13.0)
+    pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     pry-rails (0.3.9)
@@ -264,6 +280,10 @@ GEM
     ruby2_keywords (0.0.2)
     ruby_dep (1.5.0)
     rubyzip (2.3.0)
+    searchkick (4.1.1)
+      activemodel (>= 5)
+      elasticsearch (>= 6)
+      hashie
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -293,7 +313,7 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
-    webdrivers (4.2.0)
+    webdrivers (4.3.0)
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
       selenium-webdriver (>= 3.0, < 4.0)
@@ -302,8 +322,6 @@ GEM
     websocket-extensions (0.1.4)
     whenever (1.0.0)
       chronic (>= 0.6.3)
-    with_advisory_lock (4.6.0)
-      activerecord (>= 4.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.3.0)
@@ -312,6 +330,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ancestry
   better_errors
   binding_of_caller
   bootsnap (>= 1.4.2)
@@ -319,16 +338,17 @@ DEPENDENCIES
   byebug
   capistrano (~> 3.13)
   capybara
-  closure_tree
   database_cleaner
   enumerize (~> 2.3, >= 2.3.1)
   factory_bot_rails
   faker
   friendly_id (~> 5.3)
   grape
+  grape-entity
   grape_on_rails_routes
   guard
   guard-rspec
+  jwt
   listen (>= 3.0.5, < 3.2)
   pg
   pry-rails
@@ -337,6 +357,7 @@ DEPENDENCIES
   rails (~> 6.0.2, >= 6.0.2.2)
   rspec-collection_matchers
   rspec-rails (~> 4.0.0)
+  searchkick (~> 4.1.0)
   selenium-webdriver
   shoulda-matchers
   simplecov

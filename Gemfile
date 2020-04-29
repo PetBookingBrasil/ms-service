@@ -72,5 +72,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #custom gems
 gem 'whenever', require: false
 gem 'grape'
+gem 'grape-entity'
 gem 'grape_on_rails_routes'
-gem 'closure_tree'
+gem 'jwt'
+gem 'ancestry'
+gem 'searchkick', '~> 4.1.0'

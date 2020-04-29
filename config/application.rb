@@ -23,5 +23,7 @@ module MsService
     config.active_record.schema_format = :sql
     config.load_defaults 6.0
     config.api_only = true
+
+    config.active_record.schema_format = :sql
   end
 end
