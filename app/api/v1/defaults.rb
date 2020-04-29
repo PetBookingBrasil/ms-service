@@ -1,19 +1,20 @@
 module V1
   module Defaults
     extend ActiveSupport::Concern
+
     included do
+      helpers Helpers::AuthenticatorHelpers
       prefix :api
-      version 'v1', using: :header, vendor: :petbooking
       default_format :json
 
-      helpers do
-        def permitted_params
-          @permitted_params ||= declared(params, include_missing: false)
+      before do
+        unless Consumers::AuthorizeConsumer.new(request).call
+          error!({ error: "Consumer not authorized." }, 401)
         end
 
-        def logger
-          Rails.logger
-        end
+        # Checks if received jwt comes from an authorized consumer
+        # If we can decode it, it means it is an authorized consumer
+        check(headers['Jwt'])
       end
 
       rescue_from ActiveRecord::RecordNotFound do |e|

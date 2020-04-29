@@ -9,6 +9,10 @@ module V1
         JwtHelper.new(headers['X-Application']).decode(token)
       end
 
+      def check(token)
+        JwtHelper.new(headers['X-Application']).check(token)
+      end
+
       def decoded_params
         decode(params[:jwt])
       end

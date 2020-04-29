@@ -1,0 +1,25 @@
+consumers:
+  petbooking:
+    secret: <%= ENV["PETBOOKING_SECRET"] %>
+    forbidden_endpoints:
+      get: []
+      post: []
+      put: []
+      patch: []
+      delete: []
+  petbooking_apps:
+    secret: <%= ENV["PETBOOKING_APP_SECRET"] %>
+    forbidden_endpoints:
+      get: []
+      post: []
+      put: []
+      patch: []
+      delete: []
+  amei:
+    secret: <%= ENV["AMEI_SECRET"] %>
+    forbidden_endpoints:
+      get: []
+      post: []
+      put: []
+      patch: []
+      delete: []
