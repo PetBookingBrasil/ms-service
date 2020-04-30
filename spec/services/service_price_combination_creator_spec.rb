@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ServicePriceCombinationCreator do
+describe Pricing::ServicePriceCombinationCreator do
   describe '#call' do
     context 'when creates simple variations' do
       let(:service_price_rule) { create(:service_price_rule) }
@@ -13,13 +13,11 @@ describe ServicePriceCombinationCreator do
         create(:service_price_variation, :coat, service_price_rule: service_price_rule)
       end
 
-      before do
+      it 'returns service price combinations with priority' do
         described_class.new([service_price_rule]).call
 
         @service_price_combinations = service_price_rule.reload.service_price_combinations.pluck(:slug)
-      end
 
-      it 'returns service price combinations with priority' do
         expect(@service_price_combinations)
           .to eq ['p-curta', 'p-media', 'p-longa',
                   'm-curta', 'm-media', 'm-longa',
@@ -57,12 +55,10 @@ describe ServicePriceCombinationCreator do
         create(:service_price_variation, :size, service_price_rule: service_price_rule)
       end
 
-      before do
+      it 'returns service price combinations with priority' do
         described_class.new([service_price_rule]).call
         @service_price_combinations = ServicePriceCombination.pluck(:slug)
-      end
 
-      it 'returns service price combinations with priority' do
         expect(@service_price_combinations)
           .to eq ['poodle-p-curta', 'poodle-p-media', 'poodle-p-longa',
                   'poodle-m-curta', 'poodle-m-media', 'poodle-m-longa',
