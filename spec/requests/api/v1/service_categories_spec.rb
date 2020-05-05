@@ -21,16 +21,20 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
       ServiceCategory.reindex
     end
 
-    let!(:response){ get("/api/service_categories") }
+    let!(:response) { get("/api/service_categories") }
 
-  	context 'when valid' do
+    context 'when valid' do
       it 'returns 200' do
         expect(response.status).to eq(200)
       end
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(['uuid', 'name', 'slug', 'system_code', 'business_id', 'children'])
+        expect(body["data"].first.keys).to eql(
+                                             ['uuid', 'name', 'slug', 'cover_image', 'cover_image_cache',
+                                              'icon', 'icon_cache', 'html_class_name', 'position',
+                                              'system_code', 'business_id', 'children']
+                                           )
       end
 
       it 'returns Service Categories list' do
@@ -48,7 +52,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     end
 
     context 'when one business_id is passed' do
-      let!(:response){ get("/api/service_categories/search", {business_id: 1}) }
+      let!(:response) { get("/api/service_categories/search", { where: { business_id: 1 } }) }
 
       it 'returns 200' do
         expect(response.status).to eq(200)
@@ -60,7 +64,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     end
 
     context 'when two business_ids are passed' do
-      let!(:response){ get("/api/service_categories/search", {business_id: '1,3'}) }
+      let!(:response) { get("/api/service_categories/search", { where: { business_id: [1, 3] } }) }
 
       it 'returns 200' do
         expect(response.status).to eq(200)
@@ -72,10 +76,10 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     end
 
     context 'when invalid' do
-      let!(:response){ get("/api/service_categories/search", {business_id: nil}) }
+      let!(:response) { get("/api/service_categories/search", { business_id: nil }) }
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
+      it 'returns 500' do
+        expect(response.status).to eq(500)
       end
 
       it 'returns 0 services' do
@@ -87,7 +91,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
   describe '#create' do
     let(:valid_params) { attributes_for(:service_category) }
 
-  	context 'when valid' do
+    context 'when valid' do
       let!(:response) { post("/api/service_categories", valid_params) }
 
       it 'returns 201' do
@@ -113,7 +117,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
   describe '#update' do
     let!(:service_category) { create(:service_category, :with_parent) }
     context 'with valid paramters' do
-      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", { name: 'new-name' } ) }
+      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", { name: 'new-name' }) }
 
       it 'updates a Service Category' do
         service_category.reload
@@ -123,7 +127,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     end
 
     context 'with invalid paramters' do
-      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", { invalid: true } ) }
+      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", { invalid: true }) }
 
       it 'returns http error' do
         expect(response.status).to eql(422)
@@ -163,13 +167,13 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
         end
 
         it 'returns error message' do
-          expect(body).to eql({'error' => 'Invalid response'})
+          expect(body).to eql({ 'error' => 'Invalid response' })
         end
       end
     end
   end
 
-  context "invalid requests" do 
+  context "invalid requests" do
     describe "GET /" do
       context "when application is invalid" do
         before do
@@ -179,9 +183,9 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
         end
 
         let(:response) { get('/api/service_categories') }
-      
+
         it "returns 401" do
-          expect(response.status).to eq(401)  
+          expect(response.status).to eq(401)
         end
       end
 
@@ -193,13 +197,13 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
         end
 
         let(:response) { get('/api/service_categories') }
-      
+
         it "returns 422" do
-          expect(response.status).to eq(422)  
+          expect(response.status).to eq(422)
         end
 
         it "returns JWT error message" do
-          expect(JSON.parse(response.body)['error']).to include('Signature verification raised')  
+          expect(JSON.parse(response.body)['error']).to include('Signature verification raised')
         end
       end
     end

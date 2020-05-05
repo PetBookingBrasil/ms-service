@@ -8,22 +8,21 @@ module V1
       get do
         service_categories = ServiceCategory.search("*").results
 
-        present data: V1::Entities::ServiceCategory.represent(service_categories).as_json
+        present data: V1::Entities::ServiceCategory.represent(service_categories)
       end
 
       desc 'Search Service Categories by business_id'
       params do
-        requires :business_id, type: String
+        requires :where, type: Hash
       end
       get '/search' do
-        service_categories = ServiceCategory.where(business_id: params[:business_id].split(',')).all
-        present data: V1::Entities::ServiceCategory.represent(service_categories).as_json
+        service_categories = ServiceCategory.search(where: params[:where]).results
+        present data: V1::Entities::ServiceCategory.represent(service_categories)
       end
 
       desc 'Creates a Service Category'
       params do
         requires :name, type: String
-        requires :slug, type: String
       end
       post do
         service_category = ServiceCategory.create!(service_category_params(params))
@@ -50,7 +49,6 @@ module V1
         service_category.destroy!
         present data: service_category
       end
-
     end
   end
 end
