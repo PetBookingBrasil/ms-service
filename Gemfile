@@ -34,6 +34,11 @@ gem 'grape_on_rails_routes'
 gem 'jwt'
 gem 'ancestry'
 gem 'searchkick', '~> 4.1.0'
+gem 'mini_magick', '>= 4.2.4'
+gem 'carrierwave'
+gem 'carrierwave_backgrounder', github: 'lardawge/carrierwave_backgrounder'
+gem 'carrierwave-base64'
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

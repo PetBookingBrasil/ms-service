@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/lardawge/carrierwave_backgrounder.git
+  revision: 460394b0e2c0cf0c192be9c1a60bcf9dfb1f9e4d
+  specs:
+    carrierwave_backgrounder (0.4.2)
+      carrierwave (>= 0.5, < 2.0)
+      mime-types (~> 2.99)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,7 +70,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     ancestry (3.0.7)
       activerecord (>= 3.2.0)
-    better_errors (2.6.0)
+    better_errors (2.7.0)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
@@ -72,7 +80,7 @@ GEM
       msgpack (~> 1.0)
     brakeman (4.8.1)
     builder (3.2.4)
-    byebug (11.1.2)
+    byebug (11.1.3)
     capistrano (3.13.0)
       airbrussh (>= 1.0.0)
       i18n
@@ -86,10 +94,17 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
+    carrierwave (1.3.1)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
+    carrierwave-base64 (2.3.5)
+      carrierwave (>= 0.8.0)
     childprocess (3.0.0)
     chronic (0.10.2)
     coderay (1.1.2)
     concurrent-ruby (1.1.6)
+    connection_pool (2.2.2)
     crass (1.0.6)
     database_cleaner (1.8.4)
     debug_inspector (0.0.3)
@@ -132,10 +147,10 @@ GEM
     enumerize (2.3.1)
       activesupport (>= 3.2)
     erubi (1.9.0)
-    factory_bot (5.1.2)
+    factory_bot (5.2.0)
       activesupport (>= 4.2.0)
-    factory_bot_rails (5.1.1)
-      factory_bot (~> 5.1.0)
+    factory_bot_rails (5.2.0)
+      factory_bot (~> 5.2.0)
       railties (>= 4.2.0)
     faker (2.11.0)
       i18n (>= 1.6, < 2)
@@ -190,7 +205,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mimemagic (0.3.4)
+    mime-types (2.99.3)
+    mimemagic (0.3.5)
+    mini_magick (4.10.1)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.0)
@@ -202,9 +219,9 @@ GEM
     mustermann-grape (1.0.1)
       mustermann (>= 1.0.0)
     nenv (0.3.0)
-    net-scp (1.2.1)
-      net-ssh (>= 2.6.5)
-    net-ssh (6.0.0)
+    net-scp (3.0.0)
+      net-ssh (>= 2.6.5, < 7.0.0)
+    net-ssh (6.0.2)
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
@@ -228,6 +245,8 @@ GEM
       rack (>= 0.4)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-protection (2.0.8.1)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.0.2.2)
@@ -257,9 +276,10 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.20.3, < 2.0)
     rake (13.0.1)
-    rb-fsevent (0.10.3)
+    rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.1.4)
     regexp_parser (1.7.0)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
@@ -267,8 +287,8 @@ GEM
       rspec-mocks (~> 3.9.0)
     rspec-collection_matchers (1.2.0)
       rspec-expectations (>= 2.99.0.beta1)
-    rspec-core (3.9.1)
-      rspec-support (~> 3.9.1)
+    rspec-core (3.9.2)
+      rspec-support (~> 3.9.3)
     rspec-expectations (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
@@ -283,7 +303,7 @@ GEM
       rspec-expectations (~> 3.9)
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
-    rspec-support (3.9.2)
+    rspec-support (3.9.3)
     ruby2_keywords (0.0.2)
     ruby_dep (1.5.0)
     rubyzip (2.3.0)
@@ -297,6 +317,11 @@ GEM
     shellany (0.0.1)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
+    sidekiq (6.0.7)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      rack-protection (>= 2.0.0)
+      redis (>= 4.1.0)
     simplecov (0.18.5)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -331,7 +356,7 @@ GEM
       chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yard (0.9.24)
+    yard (0.9.25)
     zeitwerk (2.3.0)
 
 PLATFORMS
@@ -346,6 +371,9 @@ DEPENDENCIES
   byebug
   capistrano (~> 3.13)
   capybara
+  carrierwave
+  carrierwave-base64
+  carrierwave_backgrounder!
   database_cleaner
   dotenv-rails (~> 2.7.5)
   enumerize (~> 2.3, >= 2.3.1)
@@ -359,6 +387,7 @@ DEPENDENCIES
   guard-rspec
   jwt
   listen (>= 3.0.5, < 3.2)
+  mini_magick (>= 4.2.4)
   pg
   pry-doc
   pry-rails
@@ -370,6 +399,7 @@ DEPENDENCIES
   searchkick (~> 4.1.0)
   selenium-webdriver
   shoulda-matchers
+  sidekiq
   simplecov
   slack-notifier
   spring
