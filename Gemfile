@@ -39,6 +39,7 @@ gem 'carrierwave'
 gem 'carrierwave_backgrounder', github: 'lardawge/carrierwave_backgrounder'
 gem 'carrierwave-base64'
 gem 'sidekiq'
+gem 'aasm'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

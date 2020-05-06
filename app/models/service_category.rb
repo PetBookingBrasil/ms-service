@@ -1,5 +1,9 @@
 class ServiceCategory < ApplicationRecord
   extend FriendlyId
+  include AASM
+
+  enum aasm_state: [:disabled, :enabled]
+
   friendly_id :name, use: :slugged
 
   self.primary_key = :uuid
@@ -21,6 +25,14 @@ class ServiceCategory < ApplicationRecord
   process_in_background :icon
 
   searchkick word_start: [:name, :slug, :system_code]
+
+  aasm whiny_transitions: false, enum: true do
+    state :enabled, initial: true
+    state :disabled
+
+    event(:enable) { transitions from: :disabled, to: :enabled }
+    event(:disable) { transitions from: :enabled, to: :disabled }
+  end
 
   private
 

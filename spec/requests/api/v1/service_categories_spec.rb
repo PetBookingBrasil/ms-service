@@ -32,7 +32,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(
                                              ['uuid', 'name', 'slug', 'cover_image', 'cover_image_cache',
-                                              'icon', 'icon_cache', 'html_class_name', 'position',
+                                              'icon', 'icon_cache', 'html_class_name', 'position', 'aasm_state',
                                               'system_code', 'business_id', 'children']
                                            )
       end

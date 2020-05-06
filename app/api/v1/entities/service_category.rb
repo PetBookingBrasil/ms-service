@@ -10,6 +10,7 @@ module V1
       expose :icon_cache
       expose :html_class_name
       expose :position
+      expose :aasm_state
       expose :system_code
       expose :business_id
       expose :children, using: V1::Entities::ServiceCategory

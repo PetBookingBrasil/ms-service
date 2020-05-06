@@ -2,6 +2,24 @@ require 'faker'
 require 'rails_helper'
 
 RSpec.describe ServiceCategory, type: :model do
+  describe 'state machine' do
+    it { is_expected.to have_state(:enabled) }
+    it do
+      service_category = described_class.new
+
+      expect(service_category).to be_enabled
+    end
+    it do
+      is_expected.to transition_from(:enabled)
+                       .to(:disabled).on_event(:disable)
+    end
+
+    it do
+      is_expected.to transition_from(:disabled)
+                       .to(:enabled).on_event(:enable)
+    end
+  end
+
   describe 'Validations of Service Category' do
     let!(:service_category_invalid){ build(:service_category_invalid) }
     let!(:service_category){ build(:service_category) }
