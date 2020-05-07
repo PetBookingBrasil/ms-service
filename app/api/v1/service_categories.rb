@@ -16,7 +16,15 @@ module V1
         requires :where, type: Hash
       end
       get '/search' do
-        service_categories = ServiceCategory.search(where: params[:where]).results
+        if attributes = params[:scope]
+          scope_results = -> (r) { r.send(attributes[:name], attributes[:values]) }
+        end
+
+        service_categories = ServiceCategory.search(
+          where: params[:where],
+          scope_results: scope_results
+        ).results
+
         present data: V1::Entities::ServiceCategory.represent(service_categories)
       end
 

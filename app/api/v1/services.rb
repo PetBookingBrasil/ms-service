@@ -6,7 +6,11 @@ module V1
     resource :services do
       desc 'List Services'
       get do
-        services = Service.search("*", {limit: 10}).results
+        if attributes = params[:scope]
+          scope_results = -> (r) { r.send(attributes[:name], attributes[:values]) }
+        end
+        services = Service.search("*", { limit: 10 , scope_results: scope_results }).results
+
         present data: V1::Entities::Service.represent(services).as_json
       end
 
