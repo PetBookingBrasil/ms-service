@@ -9,6 +9,8 @@ Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f 
 require 'slack-notifier'
 require 'rack/test'
 require 'simplecov'
+require 'aasm/rspec'
+
 SimpleCov.start
 
 $notifier = Slack::Notifier.new "WEBHOOK_URL"
