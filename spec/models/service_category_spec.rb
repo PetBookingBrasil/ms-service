@@ -20,9 +20,23 @@ RSpec.describe ServiceCategory, type: :model do
     end
   end
 
+  describe '.friendly_id' do
+    let(:service_category) { create(:service_category, business_id: 1, name: 'Categoria 1') }
+
+    it { expect(service_category.slug).to eq('categoria-1') }
+  end
+
+  describe '#set_default_position' do
+    let!(:service_category_one) { create(:service_category, business_id: 2, position: 1) }
+    let!(:service_category_two) { create(:service_category, business_id: 1, position: 1) }
+    let(:service_category_three) { create(:service_category, business_id: 1, position: nil) }
+
+    it { expect(service_category_three.position).to eq 2 }
+  end
+
   describe 'Validations of Service Category' do
-    let!(:service_category_invalid){ build(:service_category_invalid) }
-    let!(:service_category){ build(:service_category) }
+    let!(:service_category_invalid) { build(:service_category_invalid) }
+    let!(:service_category) { build(:service_category) }
 
     describe 'validations' do
       subject { service_category_invalid }

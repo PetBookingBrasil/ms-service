@@ -4,7 +4,7 @@ class ServiceCategory < ApplicationRecord
 
   enum aasm_state: [:disabled, :enabled]
 
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: [:scoped, :slugged], scope: :business_id
 
   self.primary_key = :uuid
 
@@ -15,16 +15,18 @@ class ServiceCategory < ApplicationRecord
 
   has_many :services
 
-  before_create :set_default_position
+  before_validation :set_default_position
 
   default_scope -> { order(position: :asc) }
+  scope :by_business, -> value { where(business_id: value) }
 
   mount_uploader :cover_image, ServiceCategoryUploader
   mount_uploader :icon, ServiceCategoryUploader
   process_in_background :cover_image
   process_in_background :icon
 
-  searchkick word_start: [:name, :slug, :system_code]
+  searchkick word_start: [:name, :slug, :system_code],
+             batch_size: 1000, settings: { "index.mapping.total_fields.limit": 100000 }
 
   aasm whiny_transitions: false, enum: true do
     state :enabled, initial: true
@@ -36,9 +38,10 @@ class ServiceCategory < ApplicationRecord
 
   private
 
-  # ToDo add test
   def set_default_position
-    current_max_position = self.class.maximum(:position) || 1
-    self.position ||= 1 + current_max_position
+    return if position.present? || business_id.nil?
+
+    current_max_position = self.class.by_business(business_id).maximum(:position) || 0
+    self.position = 1 + current_max_position
   end
 end
