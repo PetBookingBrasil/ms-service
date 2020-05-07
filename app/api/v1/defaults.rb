@@ -14,7 +14,7 @@ module V1
 
         # Checks if received jwt comes from an authorized consumer
         # If we can decode it, it means it is an authorized consumer
-        check(headers['Jwt'])
+        # check(headers['Jwt'])
       end
 
       rescue_from ActiveRecord::RecordNotFound do |e|
