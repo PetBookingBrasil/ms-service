@@ -5,4 +5,8 @@ class Service < ApplicationRecord
   has_ancestry
 
   searchkick word_start: [:name, :slug, :application, :business_id]
+
+  scope :by_service_category_name, -> value do
+    joins(:service_category).where(ServiceCategory.arel_table[:name].eq value)
+  end
 end

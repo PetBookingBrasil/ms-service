@@ -19,6 +19,9 @@ class ServiceCategory < ApplicationRecord
 
   default_scope -> { order(position: :asc) }
   scope :by_business, -> value { where(business_id: value) }
+  scope :by_business_and_name, -> *business, name do
+    where('LOWER(name) = ?', name.downcase).by_business(business)
+  end
 
   mount_uploader :cover_image, ServiceCategoryUploader
   mount_uploader :icon, ServiceCategoryUploader

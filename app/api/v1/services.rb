@@ -75,6 +75,26 @@ module V1
         present data: service
       end
 
+      desc 'Scope by search'
+      params do
+        requires :scope_name, type: String
+      end
+      get '/search_by_scope' do
+        scope_results = -> r { r.send(params[:scope_name], *params[:values]) }
+        data = Service.search('*', scope_results: scope_results).results
+
+        present data: V1::Entities::Service.represent(data).as_json
+      end
+
+      desc 'Search services'
+      params do
+        requires :where, type: Hash
+      end
+      get '/search' do
+        services = Service.search(where: params[:where].deep_symbolize_keys).results
+
+        present data: V1::Entities::Service.represent(services)
+      end
     end
   end
 end

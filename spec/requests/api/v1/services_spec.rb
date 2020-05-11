@@ -29,7 +29,10 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
+        expect(body["data"].first.keys).to eql(
+                                             ["id", "uuid", "name", "slug", "business_id", "application",
+                                               "service_category_id", "service_category", "children"]
+                                           )
       end
 
       it 'returns Service list' do
@@ -89,7 +92,8 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id",
+                                                "application", "service_category_id", "service_category", "children"])
       end
       it 'returns Service list' do
         expect(body["data"]).to have(11).items
@@ -107,7 +111,8 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id",
+                                                "application", "service_category_id", "service_category", "children"])
       end
       it 'returns Service list' do
         expect(body["data"]).to have(31).items
@@ -125,9 +130,10 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id", "application", "service_category", "children"])
+        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id",
+                                                "application", "service_category_id", "service_category", "children"])
       end
-      
+
       it 'returns Service list' do
         expect(body["data"]).to have(51).items
       end
@@ -226,6 +232,50 @@ RSpec.describe ::V1::Services, type: :request do
           expect(body).to eql({'error' => "Invalid response"})
         end
       end
+    end
+  end
+
+  describe '#search' do
+    context 'when search by service_category' do
+      let(:service) { create(:service) }
+      let!(:other_service) { create(:service) }
+
+      let(:response) { JSON.parse(last_response.body)['data'] }
+
+      before do
+        Service.reindex
+        get("/api/services/search", { where: { service_category_id: service.service_category.id } })
+      end
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(response.last['name']).to eq(service.name) }
+      it { expect(response.count).to eq(1) }
+    end
+
+    context 'when invalid' do
+      let!(:response) { get("/api/services/search", { business_id: nil }) }
+
+      it { expect(response.status).to eq(500) }
+      it { expect(body.keys).to eql(['error']) }
+    end
+  end
+
+  describe '#search_by_scope' do
+    context 'when search by scope' do
+      let(:service) { create(:service) }
+      let!(:other_service) { create(:service) }
+
+      let(:response) { JSON.parse(last_response.body)['data'] }
+
+      before do
+        Service.reindex
+        get("/api/services/search_by_scope", { scope_name: 'by_service_category_name',
+                                               values: service.service_category.name } )
+      end
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(response.last['name']).to eq(service.name) }
+      it { expect(response.count).to eq(1) }
     end
   end
 end

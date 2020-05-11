@@ -11,19 +11,12 @@ module V1
         present data: V1::Entities::ServiceCategory.represent(service_categories)
       end
 
-      desc 'Search Service Categories by business_id'
+      desc 'Search Service Categories'
       params do
         requires :where, type: Hash
       end
       get '/search' do
-        if attributes = params[:scope]
-          scope_results = -> (r) { r.send(attributes[:name], attributes[:values]) }
-        end
-
-        service_categories = ServiceCategory.search(
-          where: params[:where],
-          scope_results: scope_results
-        ).results
+        service_categories = ServiceCategory.search(where: params[:where]).results
 
         present data: V1::Entities::ServiceCategory.represent(service_categories)
       end
@@ -56,6 +49,17 @@ module V1
         service_category = ServiceCategory.find(params[:uuid])
         service_category.destroy!
         present data: service_category
+      end
+
+      desc 'Scope by search'
+      params do
+        requires :scope_name, type: String
+      end
+      get '/search_by_scope' do
+        scope_results = -> r { r.send(params[:scope_name], *params[:values]) }
+        data = ServiceCategory.search('*', scope_results: scope_results).results
+
+        present data: V1::Entities::ServiceCategory.represent(data).as_json
       end
     end
   end

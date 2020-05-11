@@ -208,4 +208,23 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
       end
     end
   end
+
+  describe '#search_by_scope' do
+    context 'when search by scope' do
+      let!(:service_category) { create(:service_category, business_id: 10) }
+
+      let(:response) { JSON.parse(last_response.body)['data'] }
+
+      before do
+        ServiceCategory.reindex
+        get("/api/service_categories/search_by_scope", { scope_name: 'by_business_and_name',
+                                               values: [[10], service_category.name.downcase] } )
+      end
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(response.last['name']).to eq(service_category.name) }
+      it { expect(response.last['business_id']).to eq(10) }
+      it { expect(response.count).to eq(1) }
+    end
+  end
 end
