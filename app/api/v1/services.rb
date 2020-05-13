@@ -80,7 +80,14 @@ module V1
         requires :scope_name, type: String
       end
       get '/search_by_scope' do
-        scope_results = -> r { r.send(params[:scope_name], *params[:values]) }
+        scope_results = -> r do
+          if params[:options]
+            r.send(params[:scope_name], params[:options])
+          else
+            r.send(params[:scope_name])
+          end
+        end
+
         data = Service.search('*', scope_results: scope_results).results
 
         present data: V1::Entities::Service.represent(data).as_json

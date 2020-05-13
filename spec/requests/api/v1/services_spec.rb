@@ -270,7 +270,7 @@ RSpec.describe ::V1::Services, type: :request do
       before do
         Service.reindex
         get("/api/services/search_by_scope", { scope_name: 'by_service_category_name',
-                                               values: service.service_category.name } )
+                                               options: { name: service.service_category.name } } )
       end
 
       it { expect(last_response.status).to eq(200) }
