@@ -19,9 +19,25 @@ class ServiceCategory < ApplicationRecord
 
   default_scope -> { order(position: :asc) }
   scope :by_business, -> value { where(business_id: value) }
-  scope :by_business_and_name, -> *business, name do
-    where('LOWER(name) = ?', name.downcase).by_business(business)
-  end
+  scope :by_business_and_name, lambda { |options = {}|
+    where('LOWER(name) = ?', options[:name].downcase).by_business(options[:business])
+  }
+
+  scope :active, lambda {
+    at = self.arel_table
+    date = DateTime.current
+
+    where(
+      (at[:starts_at].eq(nil).or(at[:starts_at].lteq(date))).and(
+        (at[:ends_at].eq(nil).or(at[:ends_at].gt(date))))
+    )
+  }
+  scope :active_with_cover_img, -> { active.where.not(cover_image: nil) }
+  scope :configured_with_online_scheduling, lambda { |options = {}|
+    ids = options.fetch(:ids) { self.pluck(:uuid) }
+
+    joins(:services).where(uuid: ids).merge(Service.configured.with_online_scheduling)
+  }
 
   mount_uploader :cover_image, ServiceCategoryUploader
   mount_uploader :icon, ServiceCategoryUploader
