@@ -56,10 +56,26 @@ module V1
         requires :scope_name, type: String
       end
       get '/search_by_scope' do
-        scope_results = -> r { r.send(params[:scope_name], *params[:values]) }
+        scope_results = -> r do
+          if params[:options]
+            r.send(params[:scope_name], params[:options])
+          else
+            r.send(params[:scope_name])
+          end
+        end
+
         data = ServiceCategory.search('*', scope_results: scope_results).results
 
         present data: V1::Entities::ServiceCategory.represent(data).as_json
+      end
+
+      params do
+        requires :data, type: Array
+      end
+      desc 'Update service_categories'
+      put '/update_all' do
+        service_categories = ServiceCategoryUpdater.new(params[:data]).call
+        present data: V1::Entities::ServiceCategory.represent(service_categories).as_json
       end
     end
   end

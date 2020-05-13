@@ -218,13 +218,52 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
       before do
         ServiceCategory.reindex
         get("/api/service_categories/search_by_scope", { scope_name: 'by_business_and_name',
-                                               values: [[10], service_category.name.downcase] } )
+                                               options: { business: [10], name: service_category.name.downcase } })
       end
 
       it { expect(last_response.status).to eq(200) }
       it { expect(response.last['name']).to eq(service_category.name) }
       it { expect(response.last['business_id']).to eq(10) }
       it { expect(response.count).to eq(1) }
+    end
+  end
+
+  describe '#update_all' do
+    context 'when update service categories multiples' do
+      let!(:service_category_one) do
+        create(:service_category, aasm_state: 1, position: 4, uuid: 20)
+      end
+      let!(:service_category_two) do
+        create(:service_category, aasm_state: 0, position: 5, uuid: 10)
+      end
+
+      let(:attributes_one) do
+        { aasm_state: 'enabled', position: 2, id: 20 }
+      end
+
+      let(:attributes_two) do
+        { aasm_state: 'enabled', position: 3, id: 10 }
+      end
+
+      let(:data) do
+        [
+          attributes_one,
+          attributes_two
+        ]
+      end
+
+      let(:response) { JSON.parse(last_response.body)['data'] }
+
+      before do
+        ServiceCategory.reindex
+        put("/api/service_categories/update_all", { data: data })
+      end
+
+      it { expect(service_category_one.reload.aasm_state).to eq 'enabled' }
+      it { expect(service_category_one.reload.position).to eq 2 }
+      it { expect(service_category_two.reload.aasm_state).to eq 'enabled' }
+      it { expect(service_category_two.reload.position).to eq 3 }
+      it { expect(response.count).to eq 2 }
     end
   end
 end
