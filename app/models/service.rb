@@ -34,4 +34,11 @@ class Service < ApplicationRecord
     event(:enable) { transitions from: :disabled, to: :enabled }
     event(:disable) { transitions from: :enabled, to: :disabled }
   end
+
+  def search_data
+    attributes.merge(
+      service_category_business_id: service_category.business_id
+    )
+  end
+  
 end
