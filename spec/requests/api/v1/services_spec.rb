@@ -30,7 +30,7 @@ RSpec.describe ::V1::Services, type: :request do
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(
-                                             ["id", "uuid", "name", "slug", "business_id", "application",
+                                             ["id", "name", "slug", "business_id", "application",
                                                "service_category_id", "service_category", "children"]
                                            )
       end
@@ -92,7 +92,7 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id",
+        expect(body["data"].first.keys).to eql(["id", "name", "slug", "business_id",
                                                 "application", "service_category_id", "service_category", "children"])
       end
       it 'returns Service list' do
@@ -111,7 +111,7 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id",
+        expect(body["data"].first.keys).to eql(["id", "name", "slug", "business_id",
                                                 "application", "service_category_id", "service_category", "children"])
       end
       it 'returns Service list' do
@@ -130,7 +130,7 @@ RSpec.describe ::V1::Services, type: :request do
 
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
-        expect(body["data"].first.keys).to eql(["id", "uuid", "name", "slug", "business_id",
+        expect(body["data"].first.keys).to eql(["id", "name", "slug", "business_id",
                                                 "application", "service_category_id", "service_category", "children"])
       end
 
@@ -170,12 +170,12 @@ RSpec.describe ::V1::Services, type: :request do
 
   describe '#update' do
     context 'with valid paramters' do
-      let!(:response) { patch("/api/services?id=#{service.id}", { uuid: 'new-id' } ) }
+      let!(:response) { patch("/api/services?id=#{service.id}", { name: 'new-name' } ) }
 
       it 'updates a Service' do
         service.reload
 
-        expect(service.uuid).to eql('new-id')
+        expect(service.name).to eql('new-name')
       end
     end
 
@@ -193,7 +193,7 @@ RSpec.describe ::V1::Services, type: :request do
 
     context 'with error on update duplicate values' do
       let!(:new_service) { create(:service) }
-      let!(:response) { patch("/api/services?id=#{service.id}", {uuid: new_service.uuid} ) }
+      let!(:response) { patch("/api/services?id=#{service.id}", {slug: new_service.slug} ) }
 
       it 'returns http error' do
         expect(response.status).to eql(422)

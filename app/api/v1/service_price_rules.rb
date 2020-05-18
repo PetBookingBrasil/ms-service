@@ -12,13 +12,13 @@ module V1
 
       desc 'updates service price rules'
       params do
-        requires :id, type: Integer
+        requires :id, type: String
         requires :service_price_rule, type: Hash do
           optional :name, type: String
           optional :priority, type: Integer
           optional :application, type: String
           optional :service_price_variations_attributes, type: Array do
-            requires :id, type: Integer
+            requires :id, type: String
             optional :_destroy, type: Integer
             optional :name, type: String
             optional :kind, type: String

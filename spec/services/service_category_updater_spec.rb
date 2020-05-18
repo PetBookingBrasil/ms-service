@@ -4,18 +4,18 @@ describe ServiceCategoryUpdater do
   describe '#call' do
     context 'when update service category' do
       let!(:service_category_one) do
-        create(:service_category, aasm_state: 1, position: 4, uuid: 20)
+        create(:service_category, aasm_state: 1, position: 4, id: 20)
       end
       let!(:service_category_two) do
-        create(:service_category, aasm_state: 0, position: 5, uuid: 10)
+        create(:service_category, aasm_state: 0, position: 5, id: 10)
       end
 
       let(:attributes_one) do
-        { aasm_state: 'enabled', position: 2, id: 20 }
+        { aasm_state: 'enabled', position: 2, id: service_category_one.id }
       end
 
       let(:attributes_two) do
-        { aasm_state: 'enabled', position: 3, id: 10 }
+        { aasm_state: 'enabled', position: 3, id: service_category_two.id }
       end
 
       let(:service_category_updater) do

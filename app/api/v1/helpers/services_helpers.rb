@@ -3,7 +3,7 @@ module V1
     module ServicesHelpers
       def service_params(params)
         {
-          uuid:                 params[:uuid],
+          id:                   params[:id],
           name:                 params[:name],
           slug:                 params[:slug],
           business_id:          params[:business_id],

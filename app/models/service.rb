@@ -5,8 +5,8 @@ class Service < ApplicationRecord
   enum aasm_state: [:disabled, :enabled]
 
   belongs_to :service_category
-  validates :uuid, :name, :slug, :application, :business_id, presence: true
-  validates :uuid, :slug, uniqueness: true
+  validates :name, :slug, :application, :business_id, presence: true
+  validates :slug, uniqueness: true
   has_ancestry
 
   searchkick word_start: [:name, :slug, :application, :business_id]

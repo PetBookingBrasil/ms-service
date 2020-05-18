@@ -9,9 +9,9 @@ class ServiceCategoryUpdater
       service_category.update(attr.extract!(*fields))
     end
 
-    ids = attributes.map { |k| k[:id] }
+    ids = attributes.map { |k| k[:id] }.uniq
 
-    ServiceCategory.where(uuid: ids).order(:position)
+    ServiceCategory.where(id: ids).order(:position)
 
   rescue StandardError, ScriptError
     false

@@ -8,18 +8,16 @@ RSpec.describe Service, type: :model do
     describe 'validations' do
       subject { service_invalid }
 
-      it { is_expected.to validate_presence_of(:uuid) }
       it { is_expected.to validate_presence_of(:name) }
       it { is_expected.to validate_presence_of(:slug) }
       it { is_expected.to validate_presence_of(:application) }
       it { is_expected.to validate_presence_of(:business_id) }
-      it { is_expected.to validate_uniqueness_of(:uuid) }
       it { is_expected.to validate_uniqueness_of(:slug) }
       it { is_expected.to be_invalid }
       it 'should count of errors' do
         expect(subject.valid?).to be_falsey
-        expect(subject.errors).to have(6).items
-        expect(subject.errors.keys).to eql([:service_category, :uuid, :name, :slug, :application, :business_id])
+        expect(subject.errors).to have(5).items
+        expect(subject.errors.keys).to eql([:service_category, :name, :slug, :application, :business_id])
       end
     end
 

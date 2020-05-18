@@ -6,8 +6,6 @@ class ServiceCategory < ApplicationRecord
 
   friendly_id :name, use: [:scoped, :slugged], scope: :business_id
 
-  self.primary_key = :uuid
-
   validates :name, :slug, presence: true
   validates :slug, uniqueness: true
 
@@ -34,9 +32,9 @@ class ServiceCategory < ApplicationRecord
   }
   scope :active_with_cover_img, -> { active.where.not(cover_image: nil) }
   scope :configured_with_online_scheduling, lambda { |options = {}|
-    ids = options.fetch(:ids) { self.pluck(:uuid) }
+    ids = options.fetch(:ids) { self.pluck(:id) }
 
-    joins(:services).where(uuid: ids).merge(Service.configured.with_online_scheduling)
+    joins(:services).where(id: ids).merge(Service.configured.with_online_scheduling)
   }
 
   mount_uploader :cover_image, ServiceCategoryUploader

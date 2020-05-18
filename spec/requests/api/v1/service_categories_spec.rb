@@ -17,7 +17,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
 
   describe '#index' do
     before do
-      create_list(:service_category, 10, parent_id: root_service_category.uuid)
+      create_list(:service_category, 10, parent_id: root_service_category.id)
       ServiceCategory.reindex
     end
 
@@ -31,7 +31,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(
-                                             ['uuid', 'name', 'slug', 'cover_image', 'cover_image_cache',
+                                             ['id', 'name', 'slug', 'cover_image', 'cover_image_cache',
                                               'icon', 'icon_cache', 'html_class_name', 'position', 'aasm_state',
                                               'system_code', 'business_id', 'children']
                                            )
@@ -45,9 +45,9 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
 
   describe '#search' do
     before do
-      create_list(:service_category, 5, parent_id: root_service_category.uuid, business_id: 1)
-      create_list(:service_category, 10, parent_id: root_service_category.uuid, business_id: 2)
-      create_list(:service_category, 10, parent_id: root_service_category.uuid, business_id: 3)
+      create_list(:service_category, 5, parent_id: root_service_category.id, business_id: 1)
+      create_list(:service_category, 10, parent_id: root_service_category.id, business_id: 2)
+      create_list(:service_category, 10, parent_id: root_service_category.id, business_id: 3)
       ServiceCategory.reindex
     end
 
@@ -117,7 +117,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
   describe '#update' do
     let!(:service_category) { create(:service_category, :with_parent) }
     context 'with valid paramters' do
-      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", { name: 'new-name' }) }
+      let!(:response) { put("/api/service_categories?id=#{service_category.id}", { name: 'new-name' }) }
 
       it 'updates a Service Category' do
         service_category.reload
@@ -127,7 +127,7 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
     end
 
     context 'with invalid paramters' do
-      let!(:response) { put("/api/service_categories?uuid=#{service_category.uuid}", { invalid: true }) }
+      let!(:response) { put("/api/service_categories?id=#{service_category.id}", { invalid: true }) }
 
       it 'returns http error' do
         expect(response.status).to eql(422)
@@ -142,19 +142,19 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
   describe '#delete' do
     let!(:service_category) { create(:service_category) }
     before do
-      create_list(:service_category, 10, parent_id: service_category.uuid)
+      create_list(:service_category, 10, parent_id: service_category.id)
       ServiceCategory.reindex
     end
 
     context 'delete with the childrens Service Categories' do
-      let(:response) { delete("/api/service_categories?uuid=#{service_category.uuid}") }
+      let(:response) { delete("/api/service_categories?id=#{service_category.id}") }
 
       it 'returns 200' do
         expect(response.status).to eq(200)
       end
 
       it 'returns Service Category' do
-        expect(body['data']['uuid']).to eq(service_category.uuid)
+        expect(body['data']['id']).to eq(service_category.id)
       end
     end
 
@@ -231,18 +231,18 @@ RSpec.describe ::V1::ServiceCategories, type: :request do
   describe '#update_all' do
     context 'when update service categories multiples' do
       let!(:service_category_one) do
-        create(:service_category, aasm_state: 1, position: 4, uuid: 20)
+        create(:service_category, aasm_state: 1, position: 4)
       end
       let!(:service_category_two) do
-        create(:service_category, aasm_state: 0, position: 5, uuid: 10)
+        create(:service_category, aasm_state: 0, position: 5)
       end
 
       let(:attributes_one) do
-        { aasm_state: 'enabled', position: 2, id: 20 }
+        { aasm_state: 'enabled', position: 2, id: service_category_one.id }
       end
 
       let(:attributes_two) do
-        { aasm_state: 'enabled', position: 3, id: 10 }
+        { aasm_state: 'enabled', position: 3, id: service_category_two.id }
       end
 
       let(:data) do

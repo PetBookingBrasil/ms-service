@@ -42,7 +42,6 @@ module V1
 
       desc 'Creates a Service'
       params do
-        requires :uuid,                 type: String
         requires :name,                 type: String
         requires :slug,                 type: String
         requires :business_id,          type: String
@@ -56,7 +55,7 @@ module V1
 
       desc 'Updates a Service'
       params do
-        requires :id, type: Integer
+        requires :id, type: String
       end
       patch do
         service = Service.find(params[:id])
@@ -66,7 +65,7 @@ module V1
 
       desc 'Deletes a Service'
       params do
-        requires :id, type: Integer
+        requires :id, type: String
       end
 
       delete do

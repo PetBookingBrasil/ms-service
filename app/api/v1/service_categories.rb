@@ -33,20 +33,20 @@ module V1
 
       desc 'Updates a Service Category'
       params do
-        requires :uuid, type: Integer
+        requires :id, type: String
       end
       put do
-        service_category = ServiceCategory.find(params[:uuid])
+        service_category = ServiceCategory.find(params[:id])
         service_category.update!(params)
         present data: service_category
       end
 
       desc 'Deletes a Service Category'
       params do
-        requires :uuid, type: Integer
+        requires :id, type: String
       end
       delete do
-        service_category = ServiceCategory.find(params[:uuid])
+        service_category = ServiceCategory.find(params[:id])
         service_category.destroy!
         present data: service_category
       end
