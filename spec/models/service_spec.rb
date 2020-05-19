@@ -50,4 +50,9 @@ RSpec.describe Service, type: :model do
     end
   end
 
+  describe '.friendly_id' do
+    let(:service) { create(:service, name: 'Service 1') }
+
+    it { expect(service.slug).to eq('service-1') }
+  end
 end

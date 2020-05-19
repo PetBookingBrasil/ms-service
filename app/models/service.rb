@@ -1,15 +1,22 @@
 class Service < ApplicationRecord
   include BitmaskOptions
   include AASM
+  extend FriendlyId
 
   enum aasm_state: [:disabled, :enabled]
+
+  friendly_id :name, use: [:scoped, :slugged], scope: :service_category_id
 
   belongs_to :service_category
   validates :name, :slug, :application, :business_id, presence: true
   validates :slug, uniqueness: true
+
   has_ancestry
 
-  searchkick word_start: [:name, :slug, :application, :business_id]
+  searchkick word_start: [:name, :slug, :application, :business_id],
+             batch_size: 100,
+             settings: { "index.mapping.total_fields.limit": 100000 },
+             locations: [:search_location]
 
   has_bitmask_options [
                         ['has_online_scheduling', 'O cliente pode agendar online'], # 2 ** 0 => 1
@@ -24,7 +31,7 @@ class Service < ApplicationRecord
 
   scope :configured, -> { enabled.where(self.arel_table[:duration].gt(0)) }
   scope :reschedulable, -> { where(self.arel_table[:reschedule_reminder_days_after].gt(0)) }
-  scope :described,     -> { where('char_length(description) > 0') }
+  scope :described, -> { where('char_length(description) > 0') }
   scope :not_described, -> { where('char_length(description) = 0') }
 
   aasm whiny_transitions: false, enum: true do
@@ -40,5 +47,4 @@ class Service < ApplicationRecord
       service_category_business_id: service_category.business_id
     )
   end
-  
 end
