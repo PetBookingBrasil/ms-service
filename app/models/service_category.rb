@@ -53,6 +53,14 @@ class ServiceCategory < ApplicationRecord
     event(:disable) { transitions from: :enabled, to: :disabled }
   end
 
+  def search_data
+    attributes.merge(
+      aasm_state: aasm_state.to_s,
+      type: 'service_category',
+      cover_image_listing_url: cover_image_url(:mobile_thumb),
+      icon_listing_url: icon_url)
+  end
+
   private
 
   def set_default_position
