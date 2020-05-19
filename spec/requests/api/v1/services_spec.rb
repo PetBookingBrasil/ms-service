@@ -20,21 +20,19 @@ RSpec.describe ::V1::Services, type: :request do
       Service.reindex
     end
 
-    let!(:response){ get("/api/services") }
+    let!(:response) { get("/api/services") }
 
-  	context 'when valid' do
+    context 'when valid' do
       it 'returns 200' do
         expect(response.status).to eq(200)
       end
-
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(
                                              ["id", "name", "slug", "business_id", "application",
-                                               "service_category_id", "service_category", "children"]
+                                               "service_category_id", "aasm_state", "service_category", "children"]
                                            )
       end
-
       it 'returns Service list' do
         expect(body["data"]).to have(10).items
       end
@@ -46,7 +44,7 @@ RSpec.describe ::V1::Services, type: :request do
       create_list(:service_category, 5) do |root_service_category|
 
         create_list(:service, 5, service_category: root_service_category, application: service.application).each do |root_service|
-          create_list(:service, 5, :petbooking,  parent: root_service, service_category: root_service_category)
+          create_list(:service, 5, :petbooking, parent: root_service, service_category: root_service_category)
         end
       end
       Service.reindex
@@ -60,16 +58,14 @@ RSpec.describe ::V1::Services, type: :request do
     it 'returns 200' do
       expect(response.status).to eq(200)
     end
-
     it 'have exactly structure' do
       expect(body.keys).to eql(['data'])
       expect(body['data'].first.keys).to eql(['service_category', 'services'])
       expect(Service.count).to eql(151)
 
     end
-
     it "have Service root with 10 items" do
-      expect(Service.search("*", where: { application: service.application } )).to have(26).items
+      expect(Service.search("*", where: { application: service.application })).to have(26).items
     end
   end
 
@@ -81,77 +77,65 @@ RSpec.describe ::V1::Services, type: :request do
       Service.reindex
     end
 
-
-
     context 'when search by one business_id' do
-      let!(:response){ get("/api/services/by_application?application=varejopet&business_id=1") }
+      let!(:response) { get("/api/services/by_application?application=varejopet&business_id=1") }
 
       it 'returns 200' do
         expect(response.status).to eq(200)
       end
-
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "name", "slug", "business_id",
-                                                "application", "service_category_id", "service_category", "children"])
+                                                "application", "service_category_id", "aasm_state", "service_category", "children"])
       end
       it 'returns Service list' do
         expect(body["data"]).to have(11).items
       end
-
-
     end
 
     context 'when search by list of business_ids' do
-      let!(:response){ get("/api/services/by_application?application=varejopet&business_id=1,3") }
+      let!(:response) { get("/api/services/by_application?application=varejopet&business_id=1,3") }
 
       it 'returns 200' do
         expect(response.status).to eq(200)
       end
-
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "name", "slug", "business_id",
-                                                "application", "service_category_id", "service_category", "children"])
+                                                "application", "service_category_id", "aasm_state", "service_category", "children"])
       end
       it 'returns Service list' do
         expect(body["data"]).to have(31).items
       end
-
-
     end
 
     context 'list without business_id' do
-      let!(:response){ get("/api/services/by_application?application=varejopet") }
+      let!(:response) { get("/api/services/by_application?application=varejopet") }
 
       it 'returns 200' do
         expect(response.status).to eq(200)
       end
-
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "name", "slug", "business_id",
-                                                "application", "service_category_id", "service_category", "children"])
+                                                "application", "service_category_id", "aasm_state", "service_category", "children"])
       end
 
       it 'returns Service list' do
         expect(body["data"]).to have(51).items
       end
-
-
     end
   end
 
   describe '#create' do
     let(:valid_params) { attributes_for(:service, service_category_id: service_category.id) }
 
-  	context 'when valid' do
+    context 'when valid' do
       let!(:response) { post("/api/services", valid_params) }
 
       it 'returns 201' do
         expect(response.status).to eq(201)
       end
-
       it 'returns Service data' do
         expect(body['data'].symbolize_keys[:name]).to eql(valid_params[:name])
       end
@@ -170,7 +154,7 @@ RSpec.describe ::V1::Services, type: :request do
 
   describe '#update' do
     context 'with valid paramters' do
-      let!(:response) { patch("/api/services?id=#{service.id}", { name: 'new-name' } ) }
+      let!(:response) { put("/api/services?id=#{service.id}", { name: 'new-name' }) }
 
       it 'updates a Service' do
         service.reload
@@ -180,12 +164,11 @@ RSpec.describe ::V1::Services, type: :request do
     end
 
     context 'with invalid paramters' do
-      let!(:response) { patch("/api/services?id=#{service.id}", { invalid: true } ) }
+      let!(:response) { put("/api/services?id=#{service.id}", { invalid: true }) }
 
       it 'returns http error' do
         expect(response.status).to eql(422)
       end
-
       it 'returns error messages' do
         expect(body.keys).to eql(['error'])
       end
@@ -193,12 +176,11 @@ RSpec.describe ::V1::Services, type: :request do
 
     context 'with error on update duplicate values' do
       let!(:new_service) { create(:service) }
-      let!(:response) { patch("/api/services?id=#{service.id}", {slug: new_service.slug} ) }
+      let!(:response) { put("/api/services?id=#{service.id}", { slug: new_service.slug }) }
 
       it 'returns http error' do
         expect(response.status).to eql(422)
       end
-
       it 'returns key message' do
         expect(body.keys).to eql(['error'])
       end
@@ -214,7 +196,6 @@ RSpec.describe ::V1::Services, type: :request do
       it 'returns 200' do
         expect(response.status).to eq(200)
       end
-
       it 'returns Service' do
         expect(body['data']['id']).to eq(service.id)
       end
@@ -227,9 +208,8 @@ RSpec.describe ::V1::Services, type: :request do
         it 'returns 500' do
           expect(response.status).to eq(500)
         end
-
         it 'returns error message' do
-          expect(body).to eql({'error' => "Invalid response"})
+          expect(body).to eql({ 'error' => "Invalid response" })
         end
       end
     end
@@ -270,7 +250,7 @@ RSpec.describe ::V1::Services, type: :request do
       before do
         Service.reindex
         get("/api/services/search_by_scope", { scope_name: 'by_service_category_name',
-                                               options: { name: service.service_category.name } } )
+                                               options: { name: service.service_category.name } })
       end
 
       it { expect(last_response.status).to eq(200) }

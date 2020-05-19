@@ -44,7 +44,10 @@ class Service < ApplicationRecord
 
   def search_data
     attributes.merge(
-      service_category_business_id: service_category.business_id
+      service_category_business_id: service_category.business_id,
+      type: 'service',
+      aasm_state: aasm_state.to_s,
+      has_online_scheduling: has_online_scheduling
     )
   end
 end

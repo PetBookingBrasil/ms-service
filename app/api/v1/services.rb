@@ -56,11 +56,12 @@ module V1
       desc 'Updates a Service'
       params do
         requires :id, type: String
+        optional :aasm_state, type: Integer
       end
-      patch do
+      put do
         service = Service.find(params[:id])
         service.update!(params)
-        present data: service
+        present data: V1::Entities::Service.represent(service)
       end
 
       desc 'Deletes a Service'
