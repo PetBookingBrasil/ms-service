@@ -34,7 +34,7 @@ class ServiceCategory < ApplicationRecord
   scope :configured_with_online_scheduling, lambda { |options = {}|
     ids = options.fetch(:ids) { self.pluck(:id) }
 
-    joins(:services).where(id: ids).merge(Service.configured.with_online_scheduling)
+    joins(:services).where(id: ids).merge(Service.configured_with_online_scheduling)
   }
 
   mount_uploader :cover_image, ServiceCategoryUploader

@@ -33,6 +33,11 @@ class Service < ApplicationRecord
   scope :reschedulable, -> { where(self.arel_table[:reschedule_reminder_days_after].gt(0)) }
   scope :described, -> { where('char_length(description) > 0') }
   scope :not_described, -> { where('char_length(description) = 0') }
+  scope :configured_with_online_scheduling, lambda { |options = {}|
+    ids = options.fetch(:ids) { self.pluck(:id) }
+
+    where(id: ids).configured.with_online_scheduling
+  }
 
   aasm whiny_transitions: false, enum: true do
     state :enabled, initial: true
