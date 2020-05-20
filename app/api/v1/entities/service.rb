@@ -10,10 +10,10 @@ module V1
       expose :business_id
       expose :application
       expose :service_category_id
+      expose :bitmask_values
       with_options(format_with: :aasm_state_before_type_cast) do
         expose :aasm_state
       end
-      expose :service_category, using: V1::Entities::ServiceCategory
       expose :children, using: V1::Entities::Service
     end
   end

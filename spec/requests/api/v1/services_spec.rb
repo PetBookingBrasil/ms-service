@@ -30,7 +30,7 @@ RSpec.describe ::V1::Services, type: :request do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(
                                              ["id", "name", "slug", "business_id", "application",
-                                               "service_category_id", "aasm_state", "service_category", "children"]
+                                               "service_category_id", "bitmask_values", "aasm_state", "children"]
                                            )
       end
       it 'returns Service list' do
@@ -86,7 +86,7 @@ RSpec.describe ::V1::Services, type: :request do
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "name", "slug", "business_id",
-                                                "application", "service_category_id", "aasm_state", "service_category", "children"])
+                                                "application", "service_category_id", "bitmask_values", "aasm_state", "children"])
       end
       it 'returns Service list' do
         expect(body["data"]).to have(11).items
@@ -102,7 +102,7 @@ RSpec.describe ::V1::Services, type: :request do
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "name", "slug", "business_id",
-                                                "application", "service_category_id", "aasm_state", "service_category", "children"])
+                                                "application", "service_category_id", "bitmask_values", "aasm_state", "children"])
       end
       it 'returns Service list' do
         expect(body["data"]).to have(31).items
@@ -118,7 +118,7 @@ RSpec.describe ::V1::Services, type: :request do
       it 'returns correct hash structure' do
         expect(body.keys).to eql(["data"])
         expect(body["data"].first.keys).to eql(["id", "name", "slug", "business_id",
-                                                "application", "service_category_id", "aasm_state", "service_category", "children"])
+                                                "application", "service_category_id", "bitmask_values", "aasm_state", "children"])
       end
 
       it 'returns Service list' do

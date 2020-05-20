@@ -7,7 +7,10 @@ class Service < ApplicationRecord
 
   friendly_id :name, use: [:scoped, :slugged], scope: :service_category_id
 
-  belongs_to :service_category
+  before_create :set_service_category_if_none
+
+  belongs_to :service_category, optional: true
+
   validates :name, :slug, :application, :business_id, presence: true
   validates :slug, uniqueness: true
 
@@ -49,10 +52,21 @@ class Service < ApplicationRecord
 
   def search_data
     attributes.merge(
-      service_category_business_id: service_category.business_id,
+      service_category_business_id: service_category&.business_id,
       type: 'service',
       aasm_state: aasm_state.to_s,
       has_online_scheduling: has_online_scheduling
     )
+  end
+
+  private
+
+  def set_service_category_if_none
+    sc = ServiceCategory
+           .create_with(business_id: business_id)
+           .by_business(business_id)
+           .find_or_create_by(name: 'Outros', position: 10)
+
+    self.service_category ||= sc
   end
 end
