@@ -54,11 +54,14 @@ class ServiceCategory < ApplicationRecord
   end
 
   def search_data
-    attributes.merge(
+    attributes.merge!(
       aasm_state: aasm_state.to_s,
       type: 'service_category',
       cover_image_listing_url: cover_image_url(:mobile_thumb),
-      icon_listing_url: icon_url)
+      icon_listing_url: icon_url,
+      application: services.map(&:application),
+      service_ids: service_ids
+    )
   end
 
   private
