@@ -36,6 +36,7 @@ class ServiceCategory < ApplicationRecord
 
     joins(:services).where(id: ids).merge(Service.configured_with_online_scheduling)
   }
+  default_scope { where(deleted_at: nil) }
 
   mount_uploader :cover_image, ServiceCategoryUploader
   mount_uploader :icon, ServiceCategoryUploader

@@ -42,6 +42,8 @@ class Service < ApplicationRecord
     where(id: ids).configured.with_online_scheduling
   }
 
+  default_scope { where(deleted_at: nil) }
+
   aasm whiny_transitions: false, enum: true do
     state :enabled, initial: true
     state :disabled

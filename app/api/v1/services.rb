@@ -43,13 +43,21 @@ module V1
       desc 'Creates a Service'
       params do
         requires :name,                 type: String
-        requires :slug,                 type: String
         requires :business_id,          type: String
         requires :application,          type: String
         requires :service_category_id,  type: String
+        optional :description,          type: String
+        optional :slug,                 type: String
+        optional :ancestry,             type: String
+        optional :deleted_at,           type: String
+        optional :comission_percentage, type: Float
+        optional :price,                type: Float
+        optional :iss_type,             type: Integer
+        optional :aasm_state,           type: Integer
+        optional :duration,             type: Integer
       end
       post do
-        service = Service.create!(service_params(params))
+        service = Service.create!(params)
         present data: V1::Entities::Service.represent(service).as_json
       end
 
