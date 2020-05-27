@@ -3,13 +3,18 @@ class Service < ApplicationRecord
   include AASM
   extend FriendlyId
 
+  attr_accessor :bitmask_values
+
   enum aasm_state: [:disabled, :enabled]
 
   friendly_id :name, use: [:scoped, :slugged], scope: :service_category_id
 
   before_create :set_service_category_if_none
+  after_create :create_business_service
 
   belongs_to :service_category, optional: true
+
+  has_one :business_service
 
   validates :name, :application, :business_id, presence: true
 
@@ -60,6 +65,10 @@ class Service < ApplicationRecord
     )
   end
 
+  def bitmask_values
+    self.bitmask_values = make_bitmask_values
+  end
+
   private
 
   def set_service_category_if_none
@@ -69,5 +78,14 @@ class Service < ApplicationRecord
            .find_or_create_by(name: 'Outros', position: 10)
 
     self.service_category ||= sc
+  end
+
+  def create_business_service
+    BusinessService.create(
+      service_id: id,
+      duration: duration,
+      comission_percentage: comission_percentage,
+      business_id: business_id
+    )
   end
 end

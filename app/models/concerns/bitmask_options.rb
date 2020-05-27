@@ -21,7 +21,7 @@ module BitmaskOptions
     end
   end
 
-  def bitmask_values
+  def make_bitmask_values
     result = {}
     current_options = bitmask_options
 
