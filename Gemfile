@@ -50,6 +50,7 @@ group :development, :test do
   gem 'faker'
   gem 'pry-rails'
   gem 'pry-doc'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -75,7 +76,6 @@ group :test do
   gem 'guard'
   gem 'guard-rspec'
   gem 'simplecov'
-  gem 'factory_bot_rails'
   gem "slack-notifier"
   gem 'shoulda-matchers'
   gem 'rspec-collection_matchers'

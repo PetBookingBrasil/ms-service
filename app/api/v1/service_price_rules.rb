@@ -7,8 +7,18 @@ module V1
       desc "Return all service_price_rules for current application"
       get do
         present data: V1::Entities::ServicePriceRule.represent(
-          ServicePriceRule.by_application(headers['X-Application'])
+          ServicePriceRule.by_application(headers['X-Application'] || params[:application])
         ).as_json
+      end
+
+      desc 'Search service price rules'
+      params do
+        requires :where, type: Hash
+      end
+      get '/search' do
+        service_price_rules = ServicePriceRule.search(where: params[:where]).results
+
+        present data: V1::Entities::ServicePriceRule.represent(service_price_rules)
       end
 
       desc 'updates service price rules'
@@ -19,11 +29,11 @@ module V1
           optional :priority, type: Integer
           optional :application, type: String
           optional :service_price_variations_attributes, type: Array do
-            requires :id, type: String
+            optional :id, type: String
             optional :_destroy, type: Integer
             optional :name, type: String
             optional :kind, type: String
-            optional :priority, type: String
+            optional :priority, type: Integer
             optional :variations, type: Array
           end
         end
@@ -44,7 +54,7 @@ module V1
           requires :service_price_variations_attributes, type: Array do
             requires :name, type: String
             requires :kind, type: String
-            requires :priority, type: String
+            requires :priority, type: Integer
             requires :variations, type: Array
           end
         end
@@ -52,6 +62,7 @@ module V1
       post do
         @service_price_rules = ServicePriceRule.create!(params[:service_price_rules])
         Pricing::ServicePriceCombinationCreator.new(@service_price_rules).call
+        present data: V1::Entities::ServicePriceRule.represent(@service_price_rules)
       end
     end
   end

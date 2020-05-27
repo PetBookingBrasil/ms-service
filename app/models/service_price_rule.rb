@@ -8,4 +8,6 @@ class ServicePriceRule < ApplicationRecord
   scope :by_application, -> value { where(application: value) }
 
   accepts_nested_attributes_for :service_price_variations, allow_destroy: true
+
+  searchkick batch_size: 1000, settings: { "index.mapping.total_fields.limit": 100000 }
 end
