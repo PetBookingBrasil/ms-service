@@ -63,6 +63,7 @@ group :development do
   gem "binding_of_caller"
   gem 'brakeman'
   gem "capistrano", "~> 3.13", require: false
+  gem 'annotate'
 end
 
 group :test do

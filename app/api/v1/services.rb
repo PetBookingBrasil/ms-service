@@ -47,17 +47,16 @@ module V1
         requires :application,          type: String
         requires :service_category_id,  type: String
         optional :description,          type: String
-        optional :slug,                 type: String
         optional :ancestry,             type: String
         optional :deleted_at,           type: String
-        optional :comission_percentage, type: Float
-        optional :price,                type: Float
-        optional :iss_type,             type: Integer
-        optional :aasm_state,           type: Integer
-        optional :duration,             type: Integer
+        optional :comission_percentage, type: String
+        optional :price,                type: String
+        optional :iss_type,             type: String
+        optional :aasm_state,           type: String
+        optional :duration,             type: String
       end
       post do
-        service = Service.create!(params)
+        service = Service.create!(service_params(params))
         present data: V1::Entities::Service.represent(service).as_json
       end
 
@@ -68,7 +67,7 @@ module V1
       end
       put do
         service = Service.find(params[:id])
-        service.update!(params)
+        service.update!(service_params(params))
         present data: V1::Entities::Service.represent(service)
       end
 

@@ -11,8 +11,7 @@ class Service < ApplicationRecord
 
   belongs_to :service_category, optional: true
 
-  validates :name, :slug, :application, :business_id, presence: true
-  validates :slug, uniqueness: true
+  validates :name, :application, :business_id, presence: true
 
   has_ancestry
 
