@@ -10,12 +10,12 @@ module V1
           service_category_id:  params[:service_category_id],
           description:          params[:description],
           ancestry:             params[:ancestry],
-          deleted_at:           params[:deleted_at].try(:to_date),
+          deleted_at:           params[:deleted_at],
           comission_percentage: params[:comission_percentage],
-          price:                params[:price].try(:to_f),
+          price:                params[:price],
           iss_type:             params[:iss_type],
           aasm_state:           params[:aasm_state],
-          duration:             params[:duration].try(:to_i)
+          duration:             params[:duration]
         }
       end
     end
