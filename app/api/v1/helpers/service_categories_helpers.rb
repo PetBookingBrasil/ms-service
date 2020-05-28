@@ -6,7 +6,8 @@ module V1
           name:         params[:name],
           slug:         params[:slug],
           business_id:  params[:business_id],
-          parent_id:    params[:parent_id]
+          parent_id:    params[:parent_id],
+          application:  headers['X-Application'],
         }
       end
     end

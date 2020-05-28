@@ -60,7 +60,6 @@ class ServiceCategory < ApplicationRecord
       type: 'service_category',
       cover_image_listing_url: cover_image_url(:mobile_thumb),
       icon_listing_url: icon_url,
-      application: services.map(&:application),
       service_ids: service_ids
     )
   end
